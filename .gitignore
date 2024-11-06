@@ -13,10 +13,6 @@ env_nba_predict/
 
 # IDE / Editor specific
 .vscode/
-.idea/
-*.swp
-*.swo
-*.sublime-workspace
-*.sublime-project
 
+# Other files
 predictions.csv
