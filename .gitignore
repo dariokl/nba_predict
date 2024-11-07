@@ -16,3 +16,4 @@ env_nba_predict/
 
 # Other files
 predictions.csv
+copy_data.csv

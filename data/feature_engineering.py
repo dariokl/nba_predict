@@ -1,17 +1,14 @@
 import pandas as pd
-from utils.labels import rolling_average_labels
 from .preprocessing import fetch_player_game_logs
-import time
+from utils.labels import rolling_average_labels
 
 
 def prepare_features_with_rolling_averages(player_id, rolling_window=5):
-    # Fetch the player's game data
+
     games_df = fetch_player_game_logs(player_id)
 
-    # Extract key columns: points, minutes, field goals made, etc.
     games_df = games_df[[
         "GAME_DATE",
-        "MATCHUP",
         "WL",
         "MIN",
         "FGM",
@@ -28,13 +25,13 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
         "AST",
         "STL",
         "TOV",
-        "PF",
         "PTS",
         "PLUS_MINUS",
     ]]
 
-    # Convert 'MIN' (minutes played) to a numeric format
     games_df['MIN'] = pd.to_numeric(games_df['MIN'], errors='coerce')
+    games_df['GAME_DATE'] = pd.to_datetime(
+        games_df['GAME_DATE'], format='%b %d, %Y')
 
     # Calculate rolling averages
     games_df['points_rolling_avg'] = games_df['PTS'].rolling(
@@ -42,6 +39,22 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df['minutes_rolling_avg'] = games_df['MIN'].rolling(
         window=rolling_window).mean()
     games_df['fg_pct_rolling_avg'] = games_df['FG_PCT'].rolling(
+        window=rolling_window).mean()
+    games_df['fgm_rolling_avg'] = games_df['FGM'].rolling(
+        window=rolling_window).mean()
+    games_df['fga_rolling_avg'] = games_df['FGA'].rolling(
+        window=rolling_window).mean()
+    games_df['fg3m_rolling_avg'] = games_df['FG3M'].rolling(
+        window=rolling_window).mean()
+    games_df['fg3a_rolling_avg'] = games_df['FG3A'].rolling(
+        window=rolling_window).mean()
+    games_df['fg3_pct_rolling_avg'] = games_df['FG3_PCT'].rolling(
+        window=rolling_window).mean()
+    games_df['ftm_pct_rolling_avg'] = games_df['FTM'].rolling(
+        window=rolling_window).mean()
+    games_df['fta_pct_rolling_avg'] = games_df['FTA'].rolling(
+        window=rolling_window).mean()
+    games_df['ft_pct_rolling_avg'] = games_df['FT_PCT'].rolling(
         window=rolling_window).mean()
     games_df['reb_rolling_avg'] = games_df['REB'].rolling(
         window=rolling_window).mean()

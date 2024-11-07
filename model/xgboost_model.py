@@ -4,6 +4,9 @@ from sklearn.metrics import mean_absolute_error
 import json
 import os
 
+model_path = os.path.join(os.path.dirname(__file__),
+                          '..', 'best_model.json')
+
 
 def train_xgboost_model(X_train, y_train):
     """
@@ -23,7 +26,7 @@ def train_xgboost_model(X_train, y_train):
 
     # Use GridSearchCV to search for the best hyperparameters
     grid_search = GridSearchCV(estimator=xgb_model, param_grid=param_grid,
-                               cv=3, scoring='neg_mean_absolute_error', n_jobs=-1)
+                               cv=3, scoring='neg_mean_absolute_error', n_jobs=-1, early_stopping_rounds=50)
 
     # Fit the model
     grid_search.fit(X_train, y_train)
@@ -47,28 +50,38 @@ def evaluate_model(model, X_test, y_test):
     return mae
 
 
-def save_best_model(model, mae, model_save_path='best_model.json'):
+def save_best_model(model, mae):
     """
     Save the best model in JSON format if the current model has a lower MAE.
     """
     # Load the previous best model's MAE if it exists
-    if os.path.exists(model_save_path):
-        # Assuming best model is stored in 'best_model.json'
-        with open(model_save_path, 'r') as f:
+    if os.path.exists(model_path):
+        with open(model_path, 'r') as f:
             saved_model = json.load(f)
-        # You could retrieve a saved MAE from here if needed, but we'll only save the best model.
+        saved_mae = saved_model.get('mae', float('inf'))
+        print(saved_mae, '---att savedd')
     else:
-        saved_model = None
+        saved_mae = float('inf')
 
-    # If current model's MAE is better (lower), save the model
+    # If current model's MAE is better (lower), save the model and MAE
     print(f"Current model MAE: {mae}")
 
-    if saved_model is None or mae < saved_model.get('mae', float('inf')):
+    if mae < saved_mae:
         print("New best model found, saving...")
 
-        # Save the model in XGBoost's native JSON format
-        model.get_booster().save_model(model_save_path)
+        # Save model in JSON format and store MAE in the same file
+        model.get_booster().save_model('temp_model.json')
+        with open('temp_model.json', 'r') as model_file:
+            model_json = json.load(model_file)
+
+        # Add MAE to the JSON data
+        model_json['mae'] = mae
+
+        # Save updated JSON with model and MAE
+        with open(model_path, 'w') as f:
+            json.dump(model_json, f)
 
         print(f"Model saved with MAE: {mae}")
+        os.remove('temp_model.json')  # Clean up temporary file
     else:
         print("No improvement in model, skipping save.")

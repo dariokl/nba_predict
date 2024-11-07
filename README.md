@@ -31,7 +31,7 @@ Make Predictions
 python script_name.py predict
 ```
 
-Get Player Data
+Get Latest Player Data
 
 ```bash
 python script_name.py scrape
