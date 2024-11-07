@@ -57,16 +57,14 @@ def scrape_season(season):
         all_players_data = pd.DataFrame()
         print("No existing data found; creating a new file.")
 
-    # Fetch the list of all active players
     all_players = players.get_active_players()
 
     for player in all_players:
         player_id = player["id"]
 
-        # Fetch the player's game data for the current season
         player_data = playergamelog.PlayerGameLog(player_id, season=season)
         game_data = player_data.get_data_frames()[0]
-        # Append player data to all_players_data
+
         all_players_data = pd.concat(
             [all_players_data, game_data], ignore_index=True)
         sleep(1)
@@ -74,5 +72,4 @@ def scrape_season(season):
     # Drop duplicates based on all columns (or select specific columns if needed)
     all_players_data.drop_duplicates(inplace=True)
 
-    # Save the updated data to the CSV file
     all_players_data.to_csv(csv_file, index=False)

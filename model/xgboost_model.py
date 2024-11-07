@@ -42,10 +42,8 @@ def evaluate_model(model, X_test, y_test):
     """
     Evaluate the model using MAE.
     """
-    # Make predictions on the test set
     y_pred = model.predict(X_test)
 
-    # Calculate MAE
     mae = mean_absolute_error(y_test, y_pred)
     return mae
 
@@ -54,34 +52,28 @@ def save_best_model(model, mae):
     """
     Save the best model in JSON format if the current model has a lower MAE.
     """
-    # Load the previous best model's MAE if it exists
     if os.path.exists(model_path):
         with open(model_path, 'r') as f:
             saved_model = json.load(f)
         saved_mae = saved_model.get('mae', float('inf'))
-        print(saved_mae, '---att savedd')
     else:
         saved_mae = float('inf')
 
-    # If current model's MAE is better (lower), save the model and MAE
     print(f"Current model MAE: {mae}")
 
     if mae < saved_mae:
         print("New best model found, saving...")
 
-        # Save model in JSON format and store MAE in the same file
         model.get_booster().save_model('temp_model.json')
         with open('temp_model.json', 'r') as model_file:
             model_json = json.load(model_file)
 
-        # Add MAE to the JSON data
         model_json['mae'] = mae
 
-        # Save updated JSON with model and MAE
         with open(model_path, 'w') as f:
             json.dump(model_json, f)
 
         print(f"Model saved with MAE: {mae}")
-        os.remove('temp_model.json')  # Clean up temporary file
+        os.remove('temp_model.json')
     else:
         print("No improvement in model, skipping save.")

@@ -10,7 +10,7 @@ from .xgboost_model import train_xgboost_model, evaluate_model, save_best_model
 
 def train_model_and_save_model():
     """
-    Train the XGBoost model with hyperparameter tuning and save the best model.
+    Train the XGBoost model and save the best model.
     """
     all_players = fetch_all_active_players()
 

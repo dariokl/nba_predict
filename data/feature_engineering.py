@@ -33,7 +33,6 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df['GAME_DATE'] = pd.to_datetime(
         games_df['GAME_DATE'], format='%b %d, %Y')
 
-    # Calculate rolling averages
     games_df['points_rolling_avg'] = games_df['PTS'].rolling(
         window=rolling_window).mean()
     games_df['minutes_rolling_avg'] = games_df['MIN'].rolling(

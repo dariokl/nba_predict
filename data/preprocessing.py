@@ -38,15 +38,12 @@ def fetch_player_game_logs(player_id):
 
 
 def fill_win_column():
-    # Get today's date to append to the filename
     today = datetime.today()
-    # Use timedelta(days=1) for yesterday
-    yesterday = today - timedelta(days=0)
+    yesterday = today - timedelta(days=1)
     yesterday = yesterday.strftime('%Y-%m-%d')
     csv_file = os.path.join(os.path.dirname(__file__),
                             '..', f'predictions_{yesterday}.csv')
 
-    # Load the predictions CSV
     if not os.path.exists(csv_file):
         print(f"{csv_file} does not exist.")
         return
@@ -58,22 +55,17 @@ def fill_win_column():
         threshold = row['threshold']
         over_under = row['over_under']
 
-        # Get the actual performance (points scored) for the player on the previous day
         performance = get_player_recent_performance(player_name)
 
-        # Make sure you are getting the correct value, assuming 'PTS' is the points column
         actual_points = performance['PTS'].iloc[0] if isinstance(
             performance, pd.DataFrame) else performance['PTS']
 
-        # Add the actual points to the DataFrame as 'scored_points'
         predictions_df.at[index, 'scored_points'] = actual_points
 
-        # Compare the actual performance to the prediction
         if (over_under == 'Over' and actual_points > threshold) or (over_under == 'Under' and actual_points <= threshold):
-            predictions_df.at[index, 'win'] = 'W'  # Correct prediction
+            predictions_df.at[index, 'win'] = 'W'
         else:
-            predictions_df.at[index, 'win'] = 'L'  # Incorrect prediction
+            predictions_df.at[index, 'win'] = 'L'
 
-    # Save the updated predictions to CSV
     predictions_df.to_csv(csv_file, index=False)
     print(f"Win column and scored_points updated and saved to {csv_file}")
