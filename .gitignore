@@ -15,5 +15,7 @@ env_nba_predict/
 .vscode/
 
 # Other files
-predictions.csv
+predictions*
+all_results.csv
 copy_data.csv
+scrape.js

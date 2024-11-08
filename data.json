@@ -1,18 +1,418 @@
 [
-  {"name": "Anthony Edwards", "points": 26.5},
-  {"name": "Anfernee Simons", "points": 21.5},
-  {"name": "Chris Paul", "points": 11.5},
-  {"name": "Deni Avdija", "points": 10.5},
-  {"name": "Donte DiVincenzo", "points": 10.5},
-  {"name": "Giannis Antetokounmpo", "points": 30.5},
-  {"name": "Harrison Barnes", "points": 11.5},
-  {"name": "Jerami Grant", "points": 17.5},
-  {"name": "Jaden McDaniels", "points": 9.5},
-  {"name": "Julian Champagnie", "points": 11.5},
-  {"name": "Lauri Markkanen", "points": 20.5},
-  {"name": "Mike Conley", "points": 9.5},
-  {"name": "Naz Reid", "points": 11.5},
-  {"name": "Rudy Gobert", "points": 11.5},
-  {"name": "Victor Wembanyama", "points": 24.5},
-  {"name": "Zach Collins", "points": 6.5}
+  {
+    "name": "A.Nembhard",
+    "points": "10.5"
+  },
+  {
+    "name": "B.Mathurin",
+    "points": "18.5"
+  },
+  {
+    "name": "B.Miller",
+    "points": "19.5"
+  },
+  {
+    "name": "C.Capela",
+    "points": "9.5"
+  },
+  {
+    "name": "C.Cunningham",
+    "points": "24.5"
+  },
+  {
+    "name": "D.Daniels",
+    "points": "10.5"
+  },
+  {
+    "name": "I.Stewart",
+    "points": "8.5"
+  },
+  {
+    "name": "J.Green",
+    "points": "7.5"
+  },
+  {
+    "name": "J.Ivey",
+    "points": "18.5"
+  },
+  {
+    "name": "J.Johnson",
+    "points": "20.5"
+  },
+  {
+    "name": "La.Ball",
+    "points": "27.5"
+  },
+  {
+    "name": "M.Turner",
+    "points": "18.5"
+  },
+  {
+    "name": "P.Siakam",
+    "points": "22.5"
+  },
+  {
+    "name": "T.Haliburton",
+    "points": "19.5"
+  },
+  {
+    "name": "T.Hardaway",
+    "points": "12.5"
+  },
+  {
+    "name": "T.Harris",
+    "points": "16.5"
+  },
+  {
+    "name": "T.Young",
+    "points": "24.5"
+  },
+  {
+    "name": "Z.Risacher",
+    "points": "13.5"
+  },
+  {
+    "name": "A.Horford",
+    "points": "9.5"
+  },
+  {
+    "name": "A.Wiggins",
+    "points": "13.5"
+  },
+  {
+    "name": "B.Beal",
+    "points": "15.5"
+  },
+  {
+    "name": "C.Johnson",
+    "points": "15.5"
+  },
+  {
+    "name": "C.Thomas",
+    "points": "23.5"
+  },
+  {
+    "name": "D.Booker",
+    "points": "25.5"
+  },
+  {
+    "name": "D.Finney-Smith",
+    "points": "8.5"
+  },
+  {
+    "name": "D.Gafford",
+    "points": "11.5"
+  },
+  {
+    "name": "D.Garland",
+    "points": "18.5"
+  },
+  {
+    "name": "D.Green",
+    "points": "7.5"
+  },
+  {
+    "name": "D.Mitchell",
+    "points": "24.5"
+  },
+  {
+    "name": "D.Schroder",
+    "points": "15.5"
+  },
+  {
+    "name": "D.White",
+    "points": "20.5"
+  },
+  {
+    "name": "E.Mobley",
+    "points": "14.5"
+  },
+  {
+    "name": "G.Antetokounmpo",
+    "points": "30.5"
+  },
+  {
+    "name": "J.Allen",
+    "points": "14.5"
+  },
+  {
+    "name": "J.Brunson",
+    "points": "27.5"
+  },
+  {
+    "name": "J.Hart",
+    "points": "12.5"
+  },
+  {
+    "name": "J.Holiday",
+    "points": "14.5"
+  },
+  {
+    "name": "J.Nurkic",
+    "points": "9.5"
+  },
+  {
+    "name": "J.Tatum",
+    "points": "29.5"
+  },
+  {
+    "name": "K.Durant",
+    "points": "25.5"
+  },
+  {
+    "name": "K.Irving",
+    "points": "23.5"
+  },
+  {
+    "name": "K.Thompson",
+    "points": "14.5"
+  },
+  {
+    "name": "K.Towns",
+    "points": "23.5"
+  },
+  {
+    "name": "L.Doncic",
+    "points": "30.5"
+  },
+  {
+    "name": "Mik.Bridges",
+    "points": "15.5"
+  },
+  {
+    "name": "O.Anunoby",
+    "points": "15.5"
+  },
+  {
+    "name": "P.Pritchard",
+    "points": "15.5"
+  },
+  {
+    "name": "St.Curry",
+    "points": "24.5"
+  },
+  {
+    "name": "T.Jackson-Davis",
+    "points": "7.5"
+  },
+  {
+    "name": "Ty.Jones",
+    "points": "9.5"
+  },
+  {
+    "name": "A.Sarr",
+    "points": "9.5"
+  },
+  {
+    "name": "A.Sengun",
+    "points": "17.5"
+  },
+  {
+    "name": "Bi.Coulibaly",
+    "points": "14.5"
+  },
+  {
+    "name": "C.Holmgren",
+    "points": "16.5"
+  },
+  {
+    "name": "D.Brooks",
+    "points": "9.5"
+  },
+  {
+    "name": "F.VanVleet",
+    "points": "14.5"
+  },
+  {
+    "name": "J.Wells",
+    "points": "12.5"
+  },
+  {
+    "name": "Ja.Jackson",
+    "points": "22.5"
+  },
+  {
+    "name": "Jab.Smith",
+    "points": "10.5"
+  },
+  {
+    "name": "Jal.Green",
+    "points": "20.5"
+  },
+  {
+    "name": "Jal.Williams",
+    "points": "20.5"
+  },
+  {
+    "name": "L.Dort",
+    "points": "9.5"
+  },
+  {
+    "name": "S.Aldama",
+    "points": "13.5"
+  },
+  {
+    "name": "S.Gilgeous-Alexander",
+    "points": "25.5"
+  },
+  {
+    "name": "Z.Edey",
+    "points": "11.5"
+  },
+  {
+    "name": "A.Edwards",
+    "points": "25.5"
+  },
+  {
+    "name": "A.Simons",
+    "points": "19.5"
+  },
+  {
+    "name": "B.Adebayo",
+    "points": "16.5"
+  },
+  {
+    "name": "C.Braun",
+    "points": "13.5"
+  },
+  {
+    "name": "D.Avdija",
+    "points": "10.5"
+  },
+  {
+    "name": "D.Ayton",
+    "points": "14.5"
+  },
+  {
+    "name": "J.Butler",
+    "points": "19.5"
+  },
+  {
+    "name": "J.Grant",
+    "points": "18.5"
+  },
+  {
+    "name": "J.McDaniels",
+    "points": "10.5"
+  },
+  {
+    "name": "J.Murray",
+    "points": "19.5"
+  },
+  {
+    "name": "J.Randle",
+    "points": "20.5"
+  },
+  {
+    "name": "M.Conley",
+    "points": "9.5"
+  },
+  {
+    "name": "M.Porter",
+    "points": "18.5"
+  },
+  {
+    "name": "N.Jokic",
+    "points": "27.5"
+  },
+  {
+    "name": "P.Watson",
+    "points": "10.5"
+  },
+  {
+    "name": "R.Gobert",
+    "points": "12.5"
+  },
+  {
+    "name": "S.Henderson",
+    "points": "10.5"
+  },
+  {
+    "name": "T.Camara",
+    "points": "8.5"
+  },
+  {
+    "name": "T.Herro",
+    "points": "18.5"
+  },
+  {
+    "name": "T.Rozier",
+    "points": "13.5"
+  },
+  {
+    "name": "A.Davis",
+    "points": "27.5"
+  },
+  {
+    "name": "A.Drummond",
+    "points": "9.5"
+  },
+  {
+    "name": "A.Reaves",
+    "points": "16.5"
+  },
+  {
+    "name": "C.Martin",
+    "points": "11.5"
+  },
+  {
+    "name": "D.DeRozan",
+    "points": "23.5"
+  },
+  {
+    "name": "D.Fox",
+    "points": "22.5"
+  },
+  {
+    "name": "D.Russell",
+    "points": "13.5"
+  },
+  {
+    "name": "D.Sabonis",
+    "points": "17.5"
+  },
+  {
+    "name": "De.Jones",
+    "points": "8.5"
+  },
+  {
+    "name": "I.Zubac",
+    "points": "15.5"
+  },
+  {
+    "name": "J.Harden",
+    "points": "22.5"
+  },
+  {
+    "name": "K.Huerter",
+    "points": "8.5"
+  },
+  {
+    "name": "K.Lowry",
+    "points": "8.5"
+  },
+  {
+    "name": "K.Murray",
+    "points": "14.5"
+  },
+  {
+    "name": "K.Oubre",
+    "points": "19.5"
+  },
+  {
+    "name": "L.James",
+    "points": "23.5"
+  },
+  {
+    "name": "N.Powell",
+    "points": "21.5"
+  },
+  {
+    "name": "P.George",
+    "points": "22.5"
+  },
+  {
+    "name": "R.Hachimura",
+    "points": "11.5"
+  }
 ]

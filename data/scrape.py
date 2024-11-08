@@ -67,7 +67,7 @@ def scrape_season(season):
 
         all_players_data = pd.concat(
             [all_players_data, game_data], ignore_index=True)
-        sleep(1)
+        sleep(3)
 
     # Drop duplicates based on all columns (or select specific columns if needed)
     all_players_data.drop_duplicates(inplace=True)

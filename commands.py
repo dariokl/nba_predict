@@ -4,7 +4,9 @@ import os
 import argparse
 from datetime import datetime
 
-from data.preprocessing import find_players_by_full_name, get_player_recent_performance, fill_win_column
+from data.preprocessing import find_players_by_full_name, get_player_recent_performance
+from data.results import fill_win_column, predictions_stats
+from data.scrape import scrape_season, scrape_seasons
 from model.train import train_model_and_save_model
 from model.predict import predict_for_player
 
@@ -53,7 +55,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Train or predict using the XGBoost model.")
     parser.add_argument(
-        'action', choices=['train', 'predict', 'scrape', 'fill-predictions']
+        'action', choices=['train', 'predict', 'scrape', 'fill-predictions', 'predictions-stats']
     )
     args = parser.parse_args()
 
@@ -63,9 +65,12 @@ def main():
         case 'predict':
             predict_from_json()
         case 'scrape':
+            scrape_season('2019-20')
             get_player_recent_performance('LaMelo Ball')
         case 'fill-predictions':
             fill_win_column()
+        case 'predictions-stats':
+            predictions_stats()
 
 
 if __name__ == "__main__":
