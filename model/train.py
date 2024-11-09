@@ -47,11 +47,11 @@ def train_model_and_save_model():
         X_all, y_all, test_size=0.2, random_state=42)
 
     # Train the XGBoost model with hyperparameter tuning
-    best_model = train_xgboost_model(X_train, y_train)
+    trained_model = train_xgboost_model(X_train, y_train)
 
     # Evaluate the model on the test set
-    mae = evaluate_model(best_model, X_test, y_test)
+    mae = evaluate_model(trained_model, X_test, y_test)
     print(f"Test MAE: {mae}")
 
     # Save the best model if it's the best so far
-    save_best_model(best_model, mae)
+    save_best_model(trained_model, mae)

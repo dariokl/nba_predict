@@ -21,7 +21,7 @@ def predict_from_json():
     for player in player_data:
         print(f"Processing player: {player['name']}")
         name = player['name']
-        threshold = player['points']
+        threshold = float(player['points'])
 
         player_id = find_players_by_full_name(name)
 
