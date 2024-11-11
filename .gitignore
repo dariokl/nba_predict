@@ -19,3 +19,4 @@ predictions*
 all_results.csv
 copy_data.csv
 scrape.js
+best_model*
