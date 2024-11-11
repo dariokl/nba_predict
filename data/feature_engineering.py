@@ -59,5 +59,5 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
         by='DAYS_SINCE_LAST_GAME', ascending=False)
 
     games_df = games_df.dropna().reset_index(drop=True)
-    print(games_df)
+
     return games_df

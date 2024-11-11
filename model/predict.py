@@ -1,12 +1,12 @@
 import xgboost as xgb
 import os
-import json
+import numpy as np
 
 from data.feature_engineering import prepare_features_with_rolling_averages
 from utils.labels import rolling_average_labels
 
 model = os.path.join(os.path.dirname(__file__),
-                     '..', 'best_model_1.00.json')
+                     '..', 'best_model_-0.00.json')
 
 
 def predict_for_player(player_id, threshold):
@@ -27,15 +27,25 @@ def predict_for_player(player_id, threshold):
 
     predicted_points = best_model.predict(X_player)
 
-    will_score_above = predicted_points[-1] > threshold
+    # Calculate mean prediction across last N games
+    mean_predicted_points = np.mean(predicted_points)
 
-    # Calculate the deviation from the threshold
-    deviation = predicted_points[-1] - threshold
+    # Calculate deviation from threshold for mean prediction
+    deviation = mean_predicted_points - threshold
     confidence = max(0, 100 - abs(deviation) * 10)
 
+    # Decide if the player will score above the threshold
+
+    # Calculate trend-based prediction (e.g., EMA or linear trend)
+    # Trend-based prediction using EMA for smoothness
+    alpha = 0.5  # Adjust as needed for decay
+    weights = (1 - alpha) ** np.arange(len(predicted_points))[::-1]
+    trend_predicted_points = np.dot(weights, predicted_points) / weights.sum()
+    will_score_above = trend_predicted_points > threshold
     print(
         f"Will player {player_id} score above {threshold} points? {will_score_above}")
-    print(f"Predicted points: {predicted_points[-1]}")
+    print(f"Mean predicted points: {mean_predicted_points}")
     print(f"Confidence: {confidence:.2f}%")
+    print(f"Trend predicted points: {trend_predicted_points:.2f}")
 
-    return will_score_above, predicted_points[-1], confidence
+    return will_score_above, trend_predicted_points, confidence

@@ -17,7 +17,7 @@ def train_model_and_save_model():
     all_player_data = []
     all_labels = []
 
-    for player in all_players[0: 1]:
+    for player in all_players:
         print(f"Preparing data for player {player['full_name']}...")
 
         player_data = prepare_features_with_rolling_averages(
@@ -36,6 +36,4 @@ def train_model_and_save_model():
     x_all = pd.concat(all_player_data, axis=0, ignore_index=True)
     y_all = pd.concat(all_labels, axis=0, ignore_index=True)
 
-    model, mae = train_xgboost_model(x_all, y_all)
-
-    save_best_model(model, mae)
+    train_xgboost_model(x_all, y_all)
