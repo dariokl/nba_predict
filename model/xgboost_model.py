@@ -1,13 +1,8 @@
 import xgboost as xgb
-from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.metrics import mean_absolute_error
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import make_scorer, root_mean_squared_error
 import json
 import os
-import numpy as np
-from tqdm import tqdm
-
-model_path = os.path.join(os.path.dirname(__file__),
-                          '..', 'best_model.json')
 
 
 def train_xgboost_model(x_train, y_train):
@@ -26,9 +21,11 @@ def train_xgboost_model(x_train, y_train):
     # Instantiate the model
     xgb_model = xgb.XGBRegressor(objective='reg:squarederror')
 
+    rmse_scorer = make_scorer(root_mean_squared_error)
+
     # Use GridSearchCV to search for the best hyperparameters
     grid_search = GridSearchCV(estimator=xgb_model, param_grid=param_grid,
-                               cv=5, scoring='neg_mean_absolute_error', n_jobs=-1)
+                               cv=5, scoring=rmse_scorer, n_jobs=-1)
 
     # Fit the model
     grid_search.fit(x_train, y_train)
@@ -37,39 +34,27 @@ def train_xgboost_model(x_train, y_train):
     print(f"Best Hyperparameters: {grid_search.best_params_}")
 
     # Return the best model found by GridSearchCV
-    save_best_model(grid_search.best_estimator_, grid_search.best_score_)
-    return grid_search.best_estimator_, grid_search.best_score_
+    save_model(grid_search.best_estimator_, grid_search.best_score_)
 
 
-def save_best_model(model, mae):
+def save_model(model, rmse):
     """
     Save the best model in JSON format if the current model has a lower MAE.
     """
-    # Check if the model already exists
-    if os.path.exists(model_path):
-        with open(model_path, 'r') as f:
-            saved_model = json.load(f)
-        saved_mae = saved_model.get('mae', float('inf'))
-    else:
-        saved_mae = float('inf')
 
-    # If the current model has a lower MAE, save it
-    print(f"Current model MAE: {mae}")
-    if mae < saved_mae:  # Lower MAE is better, so we save if it's lower
-        print(f"New best model found (MAE: {mae}), saving...")
+    model_path = os.path.join(os.path.dirname(__file__),
+                              '..', f'model_{rmse}.json')
 
-        # Save the model
-        model.get_booster().save_model(f"best_model_{mae:.2f}.json")
+    # Save the model
+    model.get_booster().save_model(f"best_model_{rmse}.json")
 
-        # Save the model's performance metric in a separate JSON file
-        saved_model = {
-            'mae': mae,
-            'model_filename': f"best_model_{mae:.2f}.json"
-        }
+    # Save the model's performance metric in a separate JSON file
+    saved_model = {
+        'rmse': rmse,
+        'model_filename': model_path
+    }
 
-        with open(model_path, 'w') as f:
-            json.dump(saved_model, f)
+    with open(model_path, 'w') as f:
+        json.dump(saved_model, f)
 
-        print(f"Model saved as best_model_{mae:.2f}.json")
-    else:
-        print("No improvement in model, skipping save.")
+    print(f"Model saved as best_model_{rmse}.json")

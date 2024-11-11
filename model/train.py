@@ -1,11 +1,10 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 from data.feature_engineering import prepare_features_with_rolling_averages
 from data.preprocessing import fetch_all_active_players
 from utils.labels import rolling_average_labels
 
-from .xgboost_model import train_xgboost_model, save_best_model
+from .xgboost_model import train_xgboost_model
 
 
 def train_model_and_save_model():

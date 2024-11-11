@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from datetime import datetime, timedelta
+from time import sleep
 
 from nba_api.stats.endpoints import playergamelog
 from nba_api.stats.static import players
@@ -15,6 +16,7 @@ def get_player_recent_performance(name, games=1):
     game_log = playergamelog.PlayerGameLog(
         player_id=player, season='2024-25')
     game_data = game_log.get_data_frames()[0]
+    sleep(2)
     return game_data
 
 
