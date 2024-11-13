@@ -5,10 +5,10 @@ import argparse
 from datetime import datetime
 from fuzzywuzzy import process
 
-from app.data.preprocessing import find_players_by_full_name, get_player_recent_performance, fetch_all_active_players
-from app.data.results import fill_win_column, predictions_stats
-from app.data.scrape import scrape_season, scrape_seasons
-from app.model.train import train_model_and_save_model
+from app.data.preprocessing import find_players_by_full_name, fetch_all_active_players
+from app.utils.results_utils import fill_win_column, predictions_stats
+from app.utils.scrape_utils import scrape_season
+from app.model.train_helper import train_model_and_save_model
 from app.model.predict import predict_for_player_mean, predict_for_player_trend
 
 
@@ -16,9 +16,9 @@ def find_player_by_name(partial_name):
     nba_players = fetch_all_active_players()
     full_names = [player['full_name'] for player in nba_players]
     partial_name = partial_name.replace(".", " ")
-    # Use fuzzy matching to find the closest NBA player name
+
     match, score = process.extractOne(partial_name, full_names)
-    # Return the match if the score is above a reasonable threshold (e.g., 80)
+
     if score > 80:
         return match
     else:

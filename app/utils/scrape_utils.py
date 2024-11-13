@@ -8,7 +8,7 @@ from nba_api.stats.static import players
 
 
 csv_file = os.path.join(os.path.dirname(__file__),
-                        '..', 'player_performance.csv')
+                        '../..', 'player_performance.csv')
 
 
 def scrape_seasons():

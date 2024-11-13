@@ -3,7 +3,7 @@ from datetime import timedelta
 import os
 import pandas as pd
 
-from .preprocessing import get_player_recent_performance
+from app.data.preprocessing import get_player_recent_performance
 
 
 def fill_win_column():
