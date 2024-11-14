@@ -15,7 +15,7 @@ def get_player_recent_performance(name, games=1):
     game_log = playergamelog.PlayerGameLog(
         player_id=player, season='2024-25')
     game_data = game_log.get_data_frames()[0]
-    sleep(2)
+    sleep(1)
     return game_data
 
 

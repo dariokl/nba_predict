@@ -3,7 +3,7 @@ import xgboost as xgb
 import os
 
 model = os.path.join(os.path.dirname(__file__),
-                     '..', 'best_model_5.671712954134959_old.json')
+                     '../..', 'model_-0.04210920578255413.json')
 
 best_model = xgb.XGBRegressor()
 best_model.load_model(model)
