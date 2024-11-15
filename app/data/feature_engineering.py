@@ -2,14 +2,17 @@ import pandas as pd
 import numpy as np
 from time import sleep
 
-from .preprocessing import fetch_player_game_logs
+from .preprocessing import get_player_game_logs, get_team_game_logs
 from app.utils.labels import rolling_average_labels
 
 
 def prepare_features_with_rolling_averages(player_id, rolling_window=5):
 
-    games_df = fetch_player_game_logs(player_id)
+    games_df = get_player_game_logs(player_id)
 
+    oponnet_data = get_team_game_logs(games_df['Game_ID'], games_df['WL'])
+
+    print(oponnet_data)
     games_df['GAME_DATE'] = pd.to_datetime(
         games_df['GAME_DATE'], format='%b %d, %Y')
 
@@ -52,11 +55,21 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df['AST_ROLL_AVG'] = games_df['AST'].rolling(
         window=rolling_window).mean()
 
+    games_df['TRUE_SHOOTING_PCT'] = games_df['PTS'] / \
+        (2 * (games_df['FGA'] + (0.44 * games_df['FTA']))
+         )
+
+    games_df['BACK_TO_BACK'] = games_df['DAYS_SINCE_LAST_GAME'].apply(
+        lambda x: 1 if x <= 1 else 0)
+
     games_df['PER'] = (games_df['PTS'] + (0.4 * games_df['FGM']) - (0.7 * games_df['FGA']) - (0.4 * (games_df['FTA'] - games_df['FTM'])) +
                        (0.7 * games_df['REB']) + (0.3 * games_df['AST']) + (0.1 * games_df['STL']) + (0.1 * games_df['BLK']) -
                        (0.1 * games_df['TOV']) - (0.2 * games_df['PF'])) / games_df['MIN']
 
     games_df.loc[:, 'PER'] = games_df['PER'].replace([np.inf, -np.inf], np.nan)
+
+    games_df['ROLLING_PER'] = games_df['PER'].rolling(
+        window=rolling_window).mean()
 
     games_df['PTS_X_MIN'] = games_df['PTS'] * games_df['MIN']
     games_df['FGM_FGA_RATIO'] = games_df['FGM'] / (games_df['FGA'] + 1e-6)

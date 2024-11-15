@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import sqlite3 as sq
 from time import sleep
 
 from nba_api.stats.endpoints import playergamelog
@@ -24,12 +25,31 @@ def find_players_by_full_name(name):
     return player[0]['id']
 
 
-def fetch_player_game_logs(player_id):
-    csv_file = os.path.join(os.path.dirname(__file__),
-                            '../..', 'player_performance.csv')
+def get_team_game_logs(game_id, wl):
+    db_path = os.path.join(os.path.dirname(__file__),
+                           '../..', 'nba_predict.sqlite')
 
-    all_games_df = pd.read_csv(csv_file)
+    connection = sq.connect(db_path)
 
-    player_games_df = all_games_df[all_games_df['Player_ID'] == player_id]
+    query = "SELECT * FROM teams_data WHERE GAME_ID = ? and WL = ?"
+    player_games_df = pd.read_sql_query(
+        query, connection, params=(game_id, wl))
+
+    connection.close()
+
+    return player_games_df
+
+
+def get_player_game_logs(player_id):
+    db_path = os.path.join(os.path.dirname(__file__),
+                           '../..', 'nba_predict.sqlite')
+
+    connection = sq.connect(db_path)
+
+    query = "SELECT * FROM players_data WHERE Player_ID = ?"
+    player_games_df = pd.read_sql_query(query, connection, params=(player_id,))
+
+    # Close the database connection
+    connection.close()
 
     return player_games_df

@@ -6,7 +6,7 @@ from app.data.feature_engineering import prepare_features_with_rolling_averages
 from app.utils.labels import rolling_average_labels
 
 model = os.path.join(os.path.dirname(__file__),
-                     '../..', 'model_-0.019123114461903755_long_train.json')
+                     '../..', 'model_-0.039142642689759206_14-11.json')
 
 
 def predict_for_player_mean(player_id, threshold):
@@ -34,7 +34,7 @@ def predict_for_player_mean(player_id, threshold):
     confidence = max(0, 100 - abs(deviation) * 10)
 
     # Decide if the player will score above the threshold
-
+    print(predicted_points)
     will_score_above = mean_predicted_points > threshold
     print(
         f"Will player {player_id} score above {threshold} points? {will_score_above}")

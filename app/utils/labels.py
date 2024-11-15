@@ -25,5 +25,8 @@ rolling_average_labels = [
     'FGM_FGA_RATIO',
     '3PM_3PA_RATIO',
     'REST_IMPACT',
-    'DAYS_SINCE_LAST_GAME'
+    'DAYS_SINCE_LAST_GAME',
+    'TRUE_SHOOTING_PCT',
+    'BACK_TO_BACK',
+    'ROLLING_PER'
 ]

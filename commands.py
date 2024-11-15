@@ -7,7 +7,7 @@ from fuzzywuzzy import process
 
 from app.data.preprocessing import find_players_by_full_name, fetch_all_active_players
 from app.utils.results_utils import fill_win_column, predictions_stats
-from app.utils.scrape_utils import scrape_season
+from app.utils.scrape_utils import scrape_season, scrape_team_seasons
 from app.model.train_helper import train_model_and_save_model
 from app.model.predict import predict_for_player_mean, predict_for_player_trend
 
@@ -30,7 +30,7 @@ def predict_from_json(type):
         predictions = []
         player_data = json.load(f)
         today_date = datetime.today().strftime('%Y-%m-%d')
-        filename = f'predictions_{today_date}_{type}_after.csv'
+        filename = f'predictions_{today_date}_{type}.csv'
 
     for player in player_data:
         print(f"Processing player: {player['name']}")
@@ -85,7 +85,7 @@ def main():
         case 'predict-trend':
             predict_from_json('trend')
         case 'scrape':
-            scrape_season('2024-25')
+            scrape_team_seasons()
         case 'fill-predictions':
             fill_win_column()
         case 'predictions-stats':
