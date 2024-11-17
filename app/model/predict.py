@@ -34,7 +34,6 @@ def predict_for_player_mean(player_id, threshold):
     confidence = max(0, 100 - abs(deviation) * 10)
 
     # Decide if the player will score above the threshold
-    print(predicted_points)
     will_score_above = mean_predicted_points > threshold
     print(
         f"Will player {player_id} score above {threshold} points? {will_score_above}")
@@ -60,17 +59,17 @@ def predict_for_player_trend(player_id, threshold):
 
     X_player = games_df[rolling_average_labels]
 
-    predicted_points = best_model.predict(X_player)
+    print(games_df['PTS'], games_df['DAYS_SINCE_LAST_GAME'])
 
+    predicted_points = best_model.predict(X_player)
     alpha = 0.5
     weights = (1 - alpha) ** np.arange(len(predicted_points))[::-1]
     trend_predicted_points = np.dot(weights, predicted_points) / weights.sum()
+
+    # Improved confidence metric
     deviation = trend_predicted_points - threshold
-    confidence = max(0, 100 - abs(deviation) * 10)
+    confidence = 1 - min(1, abs(deviation) / max(10, abs(threshold)))
 
+    # Final prediction
     will_score_above = trend_predicted_points > threshold
-    print(
-        f"Will player {player_id} score above {threshold} points? {will_score_above}")
-    print(f"Confidence: {confidence:.2f}%")
-
-    return will_score_above, trend_predicted_points, confidence
+    return will_score_above, trend_predicted_points, confidence * 100

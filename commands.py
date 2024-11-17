@@ -30,7 +30,7 @@ def predict_from_json(type):
         predictions = []
         player_data = json.load(f)
         today_date = datetime.today().strftime('%Y-%m-%d')
-        filename = f'predictions_{today_date}_{type}_new.csv'
+        filename = f'predictions_{today_date}_{type}.csv'
 
     for player in player_data:
         print(f"Processing player: {player['name']}")

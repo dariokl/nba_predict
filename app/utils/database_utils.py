@@ -1,15 +1,16 @@
 import pandas as pd
 import sqlite3 as sq
 import os
+from datetime import datetime, timedelta
 
 csv_file = os.path.join(os.path.dirname(__file__),
-                        '../..', 'player_performance.csv')
+                        '../..', 'predictions_2024-11-17_trend_new.csv')
 
 
 df = pd.read_csv(csv_file)
+df['date'] = pd.to_datetime((datetime.now() - timedelta(days=1)).date())
 
 total_games = len(df)
+connection = sq.connect('nba_predict.sqlite'.format('predictions'))
 
-connection = sq.connect('nba_predict.sqlite'.format('players_data'))
-
-df.to_sql('players_data', connection, if_exists='replace', index=False)
+df.to_sql('predictions', connection, if_exists='replace', index=False)
