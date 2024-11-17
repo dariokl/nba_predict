@@ -6,7 +6,7 @@ from app.data.feature_engineering import prepare_features_with_rolling_averages
 from app.utils.labels import rolling_average_labels
 
 model = os.path.join(os.path.dirname(__file__),
-                     '../..', 'model_-0.039142642689759206_14-11.json')
+                     '../..', 'model_-0.034003352103285714_17-11.json')
 
 
 def predict_for_player_mean(player_id, threshold):

@@ -5,9 +5,9 @@ import argparse
 from datetime import datetime
 from fuzzywuzzy import process
 
-from app.data.preprocessing import find_players_by_full_name, fetch_all_active_players
+from app.data.preprocessing import find_players_by_full_name, fetch_all_active_players, get_player_recent_performance
 from app.utils.results_utils import fill_win_column, predictions_stats
-from app.utils.scrape_utils import scrape_season, scrape_team_seasons
+from app.utils.scrape_utils import scrape_season, scrape_team_seasons, scrape_seasons
 from app.model.train_helper import train_model_and_save_model
 from app.model.predict import predict_for_player_mean, predict_for_player_trend
 
@@ -30,7 +30,7 @@ def predict_from_json(type):
         predictions = []
         player_data = json.load(f)
         today_date = datetime.today().strftime('%Y-%m-%d')
-        filename = f'predictions_{today_date}_{type}.csv'
+        filename = f'predictions_{today_date}_{type}_new.csv'
 
     for player in player_data:
         print(f"Processing player: {player['name']}")
@@ -61,10 +61,6 @@ def predict_from_json(type):
         })
 
     predictions_df = pd.DataFrame(predictions)
-    file_exists = os.path.exists(filename)
-
-    print(file_exists)
-    print(predictions_df)
 
     predictions_df.to_csv(filename, mode='a', index=False)
 

@@ -10,9 +10,12 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
 
     games_df = get_player_game_logs(player_id)
 
-    oponnet_data = get_team_game_logs(games_df['Game_ID'], games_df['WL'])
+    if games_df.empty:
+        return None
 
-    print(oponnet_data)
+    opponent_df = get_team_game_logs(
+        games_df['Game_ID'], games_df['WL'].apply(lambda x: 'L' if x == 'W' else 'W').to_list())
+
     games_df['GAME_DATE'] = pd.to_datetime(
         games_df['GAME_DATE'], format='%b %d, %Y')
 
@@ -24,7 +27,6 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
         columns=['GAME_DATE', 'MATCHUP', 'VIDEO_AVAILABLE'])
 
     games_df['WL'] = games_df['WL'].apply(lambda x: 1 if x == 'W' else 0)
-    games_df = games_df.apply(pd.to_numeric, errors='coerce')
 
     games_df['PTS_ROLL_AVG'] = games_df['PTS'].rolling(
         window=rolling_window).mean()
@@ -83,12 +85,39 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df['PTS_LAG_4'] = games_df['PTS'].shift(4)
     games_df['PTS_LAG_5'] = games_df['PTS'].shift(5)
 
+    games_df['OPP_GP_RANK'] = opponent_df['GP_RANK']
+    games_df['OPP_W_RANK'] = opponent_df['W_RANK']
+    games_df['OPP_L_RANK'] = opponent_df['L_RANK']
+    games_df['OPP_W_PCT_RANK'] = opponent_df['W_PCT_RANK']
+    games_df['OPP_MIN_RANK'] = opponent_df['MIN_RANK']
+    games_df['OPP_FGM_RANK'] = opponent_df['FGM_RANK']
+    games_df['OPP_FGA_RANK'] = opponent_df['FGA_RANK']
+    games_df['OPP_FG_PCT_RANK'] = opponent_df['FG_PCT_RANK']
+    games_df['OPP_FG3M_RANK'] = opponent_df['FG3M_RANK']
+    games_df['OPP_FG3A_RANK'] = opponent_df['FG3A_RANK']
+    games_df['OPP_FG3_PCT_RANK'] = opponent_df['FG3_PCT_RANK']
+    games_df['OPP_FTM_RANK'] = opponent_df['FTM_RANK']
+    games_df['OPP_FTA_RANK'] = opponent_df['FTA_RANK']
+    games_df['OPP_FT_PCT_RANK'] = opponent_df['FT_PCT_RANK']
+    games_df['OPP_OREB_RANK'] = opponent_df['OREB_RANK']
+    games_df['OPP_DREB_RANK'] = opponent_df['DREB_RANK']
+    games_df['OPP_REB_RANK'] = opponent_df['REB_RANK']
+    games_df['OPP_AST_RANK'] = opponent_df['AST_RANK']
+    games_df['OPP_TOV_RANK'] = opponent_df['TOV_RANK']
+    games_df['OPP_STL_RANK'] = opponent_df['STL_RANK']
+    games_df['OPP_BLK_RANK'] = opponent_df['BLK_RANK']
+    games_df['OPP_BLKA_RANK'] = opponent_df['BLKA_RANK']
+    games_df['OPP_PF_RANK'] = opponent_df['PF_RANK']
+    games_df['OPP_PFD_RANK'] = opponent_df['PFD_RANK']
+    games_df['OPP_PTS_RANK'] = opponent_df['PTS_RANK']
+    games_df['OPP_PLUS_MINUS_RANK'] = opponent_df['PLUS_MINUS_RANK']
+
+    games_df = games_df.apply(pd.to_numeric, errors='coerce')
+
     games_df[rolling_average_labels] = games_df[rolling_average_labels].shift(
         1)
 
+    games_df = games_df.dropna().reset_index(drop=True)
     games_df = games_df.sort_values(
         by='DAYS_SINCE_LAST_GAME', ascending=False)
-
-    games_df = games_df.dropna().reset_index(drop=True)
-
     return games_df
