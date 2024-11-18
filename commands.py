@@ -10,6 +10,7 @@ from app.utils.results_utils import fill_win_column, predictions_stats
 from app.utils.scrape_utils import scrape_season, scrape_team_seasons, scrape_seasons
 from app.model.train_helper import train_model_and_save_model
 from app.model.predict import predict_for_player_mean, predict_for_player_trend
+from app.utils.database_utils import predictions_to_db, fill_data_to_db
 
 
 def find_player_by_name(partial_name):
@@ -69,7 +70,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Train or predict using the XGBoost model.")
     parser.add_argument(
-        'action', choices=['train', 'predict-mean', 'predict-trend', 'scrape', 'fill-predictions', 'predictions-stats']
+        'action', choices=['train', 'predict-mean', 'predict-trend', 'scrape', 'fill-predictions', 'predictions-stats', 'predictions-to-db', 'fill-to-db']
     )
     args = parser.parse_args()
 
@@ -84,8 +85,13 @@ def main():
             scrape_team_seasons()
         case 'fill-predictions':
             fill_win_column()
+            predictions_stats()
         case 'predictions-stats':
             predictions_stats()
+        case 'predictions-to-db':
+            predictions_to_db()
+        case 'fill-to-db':
+            fill_data_to_db()
 
 
 if __name__ == "__main__":

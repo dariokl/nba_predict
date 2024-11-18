@@ -2,6 +2,7 @@
 from flask import Flask, render_template
 from flask_assets import Bundle, Environment
 import os
+import csv
 
 import pandas as pd
 
@@ -17,13 +18,13 @@ css.build()
 @app.route("/")
 def homepage():
     csv_file = os.path.join(os.path.dirname(__file__),
-                            '../', 'predictions_2024-11-17_trend.csv')
+                            '../', 'predictions_2024-11-18_trend.csv')
+    with open(csv_file) as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
 
-    df = pd.read_csv(csv_file)
-
-    df = df.to_json()
-    print(df)
-    return render_template("index.html", predictions=[df])
+    print(rows)
+    return render_template("index.html", predictions=rows)
 
 
 if __name__ == "__main__":

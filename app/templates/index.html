@@ -1,8 +1,69 @@
 {% extends "base.html" %}
-
 {% block content %}
-<h1 class="text-emerald-600">Hello World</h1>
-{% for prediction in predictions.player_name %}
-<a>{{prediction}}</a>
-{% endfor %}
+<div class="flex min-h-screen items-center justify-center bg-white">
+    <div class="p-6 overflow-scroll px-0">
+        <table class="w-full min-w-max table-auto text-left">
+            <thead>
+                <tr>
+                    <th class="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                        <p
+                            class="block antialiased font-sans text-sm text-blue-gray-900 font-normal leading-none opacity-70">
+                            Player Name</p>
+                    </th>
+                    <th class="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                        <p
+                            class="block antialiased font-sans text-sm text-blue-gray-900 font-normal leading-none opacity-70">
+                            Betting Line</p>
+                    </th>
+                    <th class="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                        <p
+                            class="block antialiased font-sans text-sm text-blue-gray-900 font-normal leading-none opacity-70">
+                            Predicted Points</p>
+                    </th>
+                    <th class="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                        <p
+                            class="block antialiased font-sans text-sm text-blue-gray-900 font-normal leading-none opacity-70">
+                            Prediction U/O</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prediction in predictions %}
+                <tr>
+                    <td class="p-4 border-b border-blue-gray-50">
+                        <div class="flex items-center gap-3">
+                            <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
+                                {{prediction.player_name}}</p>
+                        </div>
+                    </td>
+                    <td class="p-4 border-b border-blue-gray-50">
+                        <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                            {{prediction.threshold}}</p>
+                    </td>
+                    <td class="p-4 border-b border-blue-gray-50">
+                        <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                            {{prediction.predicted_points}}</p>
+                    </td>
+                    <td class="p-4 border-b border-blue-gray-50">
+                        <div class="w-max">
+                            {% if prediction.over_under == 'Over' %}
+                            <div class="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none bg-green-500/20 text-green-900 py-1 px-2 text-xs rounded-md"
+                                style="opacity: 1;">
+                                <span class="">{{prediction.over_under}}</span>
+                            </div>
+                            {% else %}
+                            <div class="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none bg-red-500/20 text-red-900 py-1 px-2 text-xs rounded-md"
+                                style="opacity: 1;">
+                                <span class="">{{prediction.over_under}}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 {% endblock content %}

@@ -19,9 +19,9 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df['GAME_DATE'] = pd.to_datetime(
         games_df['GAME_DATE'], format='%b %d, %Y')
 
-    latest_game_date = games_df['GAME_DATE'].max()
-    games_df['DAYS_SINCE_LAST_GAME'] = (
-        latest_game_date - games_df['GAME_DATE']).dt.days
+    today = pd.Timestamp('today').normalize()  # Normalize to remove time part
+
+    games_df['DAYS_SINCE_LAST_GAME'] = (today - games_df['GAME_DATE']).dt.days
 
     games_df = games_df.drop(
         columns=['GAME_DATE', 'MATCHUP', 'VIDEO_AVAILABLE'])

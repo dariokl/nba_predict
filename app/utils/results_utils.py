@@ -8,10 +8,10 @@ from app.data.preprocessing import get_player_recent_performance
 
 def fill_win_column():
     today = datetime.today()
-    yesterday = today - timedelta(days=0)
+    yesterday = today - timedelta(days=1)
     yesterday = yesterday.strftime('%Y-%m-%d')
     csv_file = os.path.join(os.path.dirname(__file__),
-                            '../..', f'predictions_{yesterday}_mean_new.csv')
+                            '../..', f'predictions_{yesterday}_mean.csv')
 
     if not os.path.exists(csv_file):
         print(f"{csv_file} does not exist.")
@@ -41,8 +41,11 @@ def fill_win_column():
 
 
 def predictions_stats():
+    today = datetime.today()
+    yesterday = today - timedelta(days=1)
+    yesterday = yesterday.strftime('%Y-%m-%d')
     csv_file = os.path.join(os.path.dirname(__file__),
-                            '../..', 'predictions_2024-11-17_trend_new.csv')
+                            '../..', f'predictions_{yesterday}_mean.csv')
 
     df = pd.read_csv(csv_file)
 
