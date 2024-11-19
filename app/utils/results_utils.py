@@ -11,7 +11,7 @@ def fill_win_column():
     yesterday = today - timedelta(days=1)
     yesterday = yesterday.strftime('%Y-%m-%d')
     csv_file = os.path.join(os.path.dirname(__file__),
-                            '../..', f'predictions_{yesterday}_mean.csv')
+                            '../..', f'predictions_{yesterday}_trend.csv')
 
     if not os.path.exists(csv_file):
         print(f"{csv_file} does not exist.")

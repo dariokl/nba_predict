@@ -6,13 +6,14 @@ from .scrape_utils import fill_players_data, fill_teams_data
 
 
 def fill_data_to_db():
-    teams_data = fill_teams_data()
     players_data = fill_players_data()
+    teams_data = fill_teams_data()
 
     if not players_data.empty:
         connection = sq.connect('nba_predict.sqlite'.format('players_data'))
         players_data.to_sql('players_data', connection,
                             if_exists='append', index=False)
+        connection.close()
         print('Saved most recent players data')
 
     if not teams_data.empty:
@@ -20,6 +21,7 @@ def fill_data_to_db():
             'nba_predict.sqlite'.format('teams_data'))
         teams_data.to_sql('teams_data', connection,
                           if_exists='append', index=False)
+        connection.close()
         print('Saved most recent teams data')
 
 
@@ -35,4 +37,5 @@ def predictions_to_db():
 
     connection = sq.connect('nba_predict.sqlite'.format('predictions'))
 
+    connection.close()
     df.to_sql('predictions', connection, if_exists='append', index=False)

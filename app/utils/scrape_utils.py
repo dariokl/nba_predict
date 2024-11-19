@@ -131,7 +131,6 @@ def fill_players_data():
             all_players_data = pd.concat(
                 [all_players_data, game_data], ignore_index=True)
 
-            print(game_log, 'aaa')
             sleep(1)
         except Exception as e:
             print(e)
