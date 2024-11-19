@@ -35,7 +35,7 @@ def predictions_to_db():
     df = pd.read_csv(csv_file)
     df['date'] = pd.to_datetime((datetime.now() - timedelta(days=1)).date())
 
-    connection = sq.connect('nba_predict.sqlite'.format('predictions'))
+    connection = sq.connect('nba_predict.sqlite'.format('predictions_mean'))
 
+    df.to_sql('predictions_mean', connection, if_exists='replace', index=False)
     connection.close()
-    df.to_sql('predictions', connection, if_exists='append', index=False)

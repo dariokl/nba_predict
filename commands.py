@@ -5,16 +5,16 @@ import argparse
 from datetime import datetime
 from fuzzywuzzy import process
 
-from app.data.preprocessing import find_players_by_full_name, fetch_all_active_players, get_player_recent_performance
+from app.data.preprocessing_players import find_players_by_full_name, get_all_active_players, get_player_recent_performance
 from app.utils.results_utils import fill_win_column, predictions_stats
 from app.utils.scrape_utils import scrape_season, scrape_team_seasons, scrape_seasons
 from app.model.train_helper import train_model_and_save_model
-from app.model.predict import predict_for_player_mean, predict_for_player_trend
+from app.model.regression.predict_regression_model import predict_for_player_mean, predict_for_player_trend
 from app.utils.database_utils import predictions_to_db, fill_data_to_db
 
 
 def find_player_by_name(partial_name):
-    nba_players = fetch_all_active_players()
+    nba_players = get_all_active_players()
     full_names = [player['full_name'] for player in nba_players]
     partial_name = partial_name.replace(".", " ")
 
@@ -36,7 +36,7 @@ def predict_from_json(type):
     for player in player_data:
         print(f"Processing player: {player['name']}")
         name = find_player_by_name(player['name'])
-        threshold = float(player['points'])
+        betline = float(player['points'])
 
         player_id = find_players_by_full_name(name)
 
@@ -46,14 +46,14 @@ def predict_from_json(type):
 
         if (type == 'mean'):
             over_under, predicted_points, confidence = predict_for_player_mean(
-                player_id, threshold=threshold)
+                player_id, betline=betline)
         else:
             over_under, predicted_points, confidence = predict_for_player_trend(
-                player_id, threshold=threshold)
+                player_id, betline=betline)
 
         predictions.append({
             'player_name': name,
-            'threshold': threshold,
+            'betline': betline,
             'over_under': 'Over' if over_under else 'Under',
             'confidence': round(confidence, 2),
             'predicted_points': round(predicted_points, 0),

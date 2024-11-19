@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 from time import sleep
 
-from .preprocessing import get_player_game_logs, get_team_game_logs
+from .preprocessing_players import get_player_game_logs
+from .preprocessing_teams import get_team_game_logs
 from app.utils.labels import rolling_average_labels
 
 

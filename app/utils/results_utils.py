@@ -3,7 +3,7 @@ from datetime import timedelta
 import os
 import pandas as pd
 
-from app.data.preprocessing import get_player_recent_performance
+from app.data.preprocessing_players import get_player_recent_performance
 
 
 def fill_win_column():
@@ -21,7 +21,7 @@ def fill_win_column():
 
     for index, row in predictions_df.iterrows():
         player_name = row['player_name']
-        threshold = row['threshold']
+        betline = row['betline']
         over_under = row['over_under']
 
         performance = get_player_recent_performance(player_name)
@@ -31,7 +31,7 @@ def fill_win_column():
 
         predictions_df.at[index, 'scored_points'] = actual_points
 
-        if (over_under == 'Over' and actual_points > threshold) or (over_under == 'Under' and actual_points <= threshold):
+        if (over_under == 'Over' and actual_points > betline) or (over_under == 'Under' and actual_points <= betline):
             predictions_df.at[index, 'win'] = 'W'
         else:
             predictions_df.at[index, 'win'] = 'L'
