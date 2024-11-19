@@ -40,7 +40,8 @@ def get_player_game_logs(player_id):
 
     connection.close()
 
-    player_games_df['GAME_DATE'] = pd.to_datetime(player_games_df['GAME_DATE'])
+    player_games_df['GAME_DATE'] = pd.to_datetime(
+        player_games_df['GAME_DATE'], format='%b %d, %Y')
     player_games_df = player_games_df.sort_values(
         by='GAME_DATE', ascending=True)
 

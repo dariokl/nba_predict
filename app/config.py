@@ -4,6 +4,8 @@ from flask_assets import Bundle, Environment
 import os
 import csv
 
+import pandas as pd
+
 app = Flask(__name__)
 
 assets = Environment(app)

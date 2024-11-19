@@ -2,59 +2,97 @@ from datetime import datetime
 from datetime import timedelta
 import os
 import pandas as pd
+import sqlite3 as sq
 
 from app.data.preprocessing_players import get_player_recent_performance
+
+db_path = os.path.join(os.path.dirname(__file__),
+                       '../../nba_predict.sqlite')
 
 
 def fill_win_column():
     today = datetime.today()
     yesterday = today - timedelta(days=1)
     yesterday = yesterday.strftime('%Y-%m-%d')
-    csv_file = os.path.join(os.path.dirname(__file__),
-                            '../..', f'predictions_{yesterday}_trend.csv')
 
-    if not os.path.exists(csv_file):
-        print(f"{csv_file} does not exist.")
+    if not os.path.exists(db_path):
+        print(f"Database file {db_path} does not exist.")
         return
 
-    predictions_df = pd.read_csv(csv_file)
+    connection = sq.connect(db_path)
+    cursor = connection.cursor()
 
-    for index, row in predictions_df.iterrows():
-        player_name = row['player_name']
-        betline = row['betline']
-        over_under = row['over_under']
+    query = f"""
+        SELECT player_name, betline, over_under
+        FROM predictions
+        WHERE win is NULL and DATE(date) = ?
+        """
+    rows = cursor.execute(query, (yesterday,)).fetchall()
+
+    print(yesterday)
+
+    if not rows:
+        print(f"No predictions to process in table")
+
+    for row in rows:
+        player_name, betline, over_under = row
 
         performance = get_player_recent_performance(player_name)
+
+        if performance.empty:
+            continue
 
         actual_points = performance['PTS'].iloc[0] if isinstance(
             performance, pd.DataFrame) else performance['PTS']
 
-        predictions_df.at[index, 'scored_points'] = actual_points
-
         if (over_under == 'Over' and actual_points > betline) or (over_under == 'Under' and actual_points <= betline):
-            predictions_df.at[index, 'win'] = 'W'
+            win = 1
         else:
-            predictions_df.at[index, 'win'] = 'L'
+            win = 0
 
-    predictions_df.to_csv(csv_file, index=False)
-    print(f"Win column and scored_points updated and saved to {csv_file}")
+        update_query = f"""
+        UPDATE predictions
+        SET scored_points = ?, win = ?
+        WHERE win IS NULL and DATE(date) = ? and player_name = ?
+        """
+        cursor.execute(update_query, (float(actual_points),
+                       win, yesterday, player_name))
+
+    connection.commit()
+    connection.close()
+    print('Predictions are updated')
 
 
 def predictions_stats():
-    today = datetime.today()
-    yesterday = today - timedelta(days=1)
-    yesterday = yesterday.strftime('%Y-%m-%d')
-    csv_file = os.path.join(os.path.dirname(__file__),
-                            '../..', f'predictions_{yesterday}_mean.csv')
+    if not os.path.exists(db_path):
+        print(f"Database file {db_path} does not exist.")
+        return
 
-    df = pd.read_csv(csv_file)
+    connection = sq.connect(db_path)
+    cursor = connection.cursor()
 
-    total_games = len(df)
+    # List of tables to process
+    types = ['mean', 'trend']
 
-    wins = df['win'].value_counts().get('W', 0)
+    for prediciton_type in types:
+        # Count wins (1) and total valid predictions (excluding 'DNP')
+        query = f"""
+        SELECT
+            COUNT(*) AS total_predictions,
+            SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
+        FROM predictions
+        WHERE win IS NOT NULL and type = ?
+        """
+        result = cursor.execute(query, (prediciton_type,)).fetchone()
 
-    win_percentage = (wins / total_games) * 100 if total_games > 0 else 0
+        total_predictions = result[0]  # Total valid predictions
+        total_wins = result[1]
 
-    print(f"Total games: {total_games}")
-    print(f"Wins: {wins}")
-    print(f"Win percentage: {win_percentage:.2f}%")
+        if total_predictions > 0:
+            winning_percentage = (total_wins / total_predictions) * 100
+            print(f"Winning Percentage for {
+                  prediciton_type}: {winning_percentage:.2f}%")
+        else:
+            print(f"No valid predictions in table {prediciton_type}.")
+
+    connection.close()

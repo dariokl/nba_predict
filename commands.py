@@ -2,15 +2,20 @@ import pandas as pd
 import json
 import os
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 from fuzzywuzzy import process
+import sqlite3 as sq
+import uuid
 
 from app.data.preprocessing_players import find_players_by_full_name, get_all_active_players, get_player_recent_performance
 from app.utils.results_utils import fill_win_column, predictions_stats
 from app.utils.scrape_utils import scrape_season, scrape_team_seasons, scrape_seasons
 from app.model.train_helper import train_model_and_save_model
 from app.model.regression.predict_regression_model import predict_for_player_mean, predict_for_player_trend
-from app.utils.database_utils import predictions_to_db, fill_data_to_db
+from app.utils.database_utils import fill_data_to_db
+
+db_path = os.path.join(os.path.dirname(__file__),
+                       './', 'nba_predict.sqlite')
 
 
 def find_player_by_name(partial_name):
@@ -58,19 +63,30 @@ def predict_from_json(type):
             'confidence': round(confidence, 2),
             'predicted_points': round(predicted_points, 0),
             'odds': 1.90,
-            'win': '',
+            'win': None,
+            'scored_points': None,
+            'type': type
         })
 
     predictions_df = pd.DataFrame(predictions)
 
-    predictions_df.to_csv(filename, mode='a', index=False)
+    predictions_df['date'] = pd.to_datetime(
+        (datetime.now() - timedelta(days=1)).date(), format='%b %d, %Y')
+
+    print(predictions_df)
+
+    connection = sq.connect(db_path.format('predictions'))
+    predictions_df.to_sql('predictions', connection,
+                          if_exists='append', index=False)
+
+    print('Saved predictions')
 
 
 def main():
     parser = argparse.ArgumentParser(
         description="Train or predict using the XGBoost model.")
     parser.add_argument(
-        'action', choices=['train', 'predict-mean', 'predict-trend', 'scrape', 'fill-predictions', 'predictions-stats', 'predictions-to-db', 'fill-to-db']
+        'action', choices=['train', 'predict-mean', 'predict-trend', 'scrape', 'fill-predictions', 'predictions-stats', 'fill-to-db']
     )
     args = parser.parse_args()
 
@@ -88,8 +104,6 @@ def main():
             predictions_stats()
         case 'predictions-stats':
             predictions_stats()
-        case 'predictions-to-db':
-            predictions_to_db()
         case 'fill-to-db':
             fill_data_to_db()
 

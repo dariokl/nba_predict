@@ -12,6 +12,9 @@ from nba_api.stats.static import players, teams
 csv_file = os.path.join(os.path.dirname(__file__),
                         '../..', 'player_performance.csv')
 
+db_path = os.path.join(os.path.dirname(__file__),
+                       '../..', 'nba_predict.sqlite')
+
 
 def scrape_seasons():
     seasons = ["2020-2021", "2021-2022", "2022-23", "2023-24", "2024-25"]
@@ -103,7 +106,7 @@ def scrape_team_seasons():
                     f"Error fetching data for team {team_name} (ID: {team_id}) in season {season}: {e}")
                 continue
 
-    connection = sq.connect('nba_predict.sqlite'.format('teams_data'))
+    connection = sq.connect(db_path.format('teams_data'))
 
     all_teams_data.to_sql('teams_data', connection,
                           if_exists='replace', index=False)
