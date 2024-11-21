@@ -24,7 +24,7 @@ def fill_win_column():
 
     query = f"""
         SELECT player_name, betline, over_under, type
-        FROM predictions_test
+        FROM predictions
         WHERE win is NULL and DATE(date) = ?
         """
     rows = cursor.execute(query, (yesterday,)).fetchall()
@@ -74,7 +74,7 @@ def predictions_stats():
     cursor = connection.cursor()
 
     # List of tables to process
-    types = ['mean', 'trend']
+    types = ['ema', 'trend', 'mean']
 
     for prediciton_type in types:
         # Count wins (1) and total valid predictions (excluding 'DNP')
@@ -82,7 +82,7 @@ def predictions_stats():
         SELECT
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
-        FROM predictions_test
+        FROM predictions
         WHERE win IS NOT NULL and type = ? and date(date) = ?
         """
         result = cursor.execute(query, (prediciton_type, yesterday)).fetchone()

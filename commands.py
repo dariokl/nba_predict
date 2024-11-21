@@ -11,7 +11,7 @@ from app.data.preprocessing_players import find_players_by_full_name, get_all_ac
 from app.utils.results_utils import fill_win_column, predictions_stats
 from app.utils.scrape_utils import scrape_season, scrape_team_seasons, scrape_seasons
 from app.model.train_helper import train_model_and_save_model
-from app.model.regression.predict_regression_model import predict_for_player_mean, predict_for_player_trend
+from app.model.regression.predict_regression_model import predict_for_player_mean, predict_for_player_trend, predict_for_player_ema
 from app.utils.database_utils import fill_data_to_db
 
 db_path = os.path.join(os.path.dirname(__file__),
@@ -52,8 +52,11 @@ def predict_from_json(type):
         if (type == 'mean'):
             over_under, predicted_points, confidence = predict_for_player_mean(
                 player_id, betline=betline)
-        else:
+        elif (type == 'trend'):
             over_under, predicted_points, confidence = predict_for_player_trend(
+                player_id, betline=betline)
+        elif (type == 'ema'):
+            over_under, predicted_points, confidence = predict_for_player_ema(
                 player_id, betline=betline)
 
         predictions.append({
@@ -73,10 +76,8 @@ def predict_from_json(type):
     predictions_df['date'] = pd.to_datetime(
         (datetime.now() - timedelta(days=0)).date(), format='%b %d, %Y')
 
-    print(predictions_df)
-
-    connection = sq.connect(db_path.format('predictions_test'))
-    predictions_df.to_sql('predictions_test', connection,
+    connection = sq.connect(db_path.format('predictions'))
+    predictions_df.to_sql('predictions', connection,
                           if_exists='append', index=False)
 
     print('Saved predictions')
@@ -86,17 +87,23 @@ def main():
     parser = argparse.ArgumentParser(
         description="Train or predict using the XGBoost model.")
     parser.add_argument(
-        'action', choices=['train', 'predict-mean', 'predict-trend', 'scrape', 'fill-predictions', 'predictions-stats', 'fill-to-db']
+        'action', choices=['train', 'predict-all', 'predict-mean', 'predict-trend', 'predict-ema', 'scrape', 'fill-predictions', 'predictions-stats', 'fill-to-db']
     )
     args = parser.parse_args()
 
     match args.action:
         case 'train':
             train_model_and_save_model()
+        case 'predict-all':
+            predict_from_json('mean')
+            predict_from_json('trend')
+            predict_from_json('ema')
         case 'predict-mean':
             predict_from_json('mean')
         case 'predict-trend':
             predict_from_json('trend')
+        case 'predict-ema':
+            predict_from_json('ema')
         case 'scrape':
             scrape_team_seasons()
         case 'fill-predictions':
