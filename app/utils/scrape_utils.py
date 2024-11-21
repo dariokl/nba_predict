@@ -121,7 +121,7 @@ def fill_players_data():
 
     all_players_data = pd.DataFrame()
     all_players = players.get_active_players()
-    print(yesterday)
+
     for player in all_players:
         player_id = player["id"]
         print(f"Fetching data for player ID: {player_id}")

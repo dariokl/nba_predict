@@ -23,19 +23,17 @@ def fill_win_column():
     cursor = connection.cursor()
 
     query = f"""
-        SELECT player_name, betline, over_under
-        FROM predictions
+        SELECT player_name, betline, over_under, type
+        FROM predictions_test
         WHERE win is NULL and DATE(date) = ?
         """
     rows = cursor.execute(query, (yesterday,)).fetchall()
-
-    print(yesterday)
 
     if not rows:
         print(f"No predictions to process in table")
 
     for row in rows:
-        player_name, betline, over_under = row
+        player_name, betline, over_under, type_ = row
 
         performance = get_player_recent_performance(player_name)
 
@@ -53,10 +51,10 @@ def fill_win_column():
         update_query = f"""
         UPDATE predictions
         SET scored_points = ?, win = ?
-        WHERE win IS NULL and DATE(date) = ? and player_name = ?
+        WHERE win IS NULL and DATE(date) = ? and player_name = ? and type = ?
         """
         cursor.execute(update_query, (float(actual_points),
-                       win, yesterday, player_name))
+                       win, yesterday, player_name, type_))
 
     connection.commit()
     connection.close()
@@ -67,6 +65,10 @@ def predictions_stats():
     if not os.path.exists(db_path):
         print(f"Database file {db_path} does not exist.")
         return
+
+    today = datetime.today()
+    yesterday = today - timedelta(days=1)
+    yesterday = yesterday.strftime('%Y-%m-%d')
 
     connection = sq.connect(db_path)
     cursor = connection.cursor()
@@ -80,10 +82,10 @@ def predictions_stats():
         SELECT
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
-        FROM predictions
-        WHERE win IS NOT NULL and type = ?
+        FROM predictions_test
+        WHERE win IS NOT NULL and type = ? and date(date) = ?
         """
-        result = cursor.execute(query, (prediciton_type,)).fetchone()
+        result = cursor.execute(query, (prediciton_type, yesterday)).fetchone()
 
         total_predictions = result[0]  # Total valid predictions
         total_wins = result[1]
@@ -93,6 +95,6 @@ def predictions_stats():
             print(f"Winning Percentage for {
                   prediciton_type}: {winning_percentage:.2f}%")
         else:
-            print(f"No valid predictions in table {prediciton_type}.")
+            print(f"No valid predictions for type {prediciton_type}.")
 
     connection.close()

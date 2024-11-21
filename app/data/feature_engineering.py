@@ -114,7 +114,8 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df['OPP_PLUS_MINUS_RANK'] = opponent_df['PLUS_MINUS_RANK']
 
     games_df = games_df.apply(pd.to_numeric, errors='coerce')
-
+    games_df[rolling_average_labels] = games_df[rolling_average_labels].shift(
+        1)
     games_df = games_df.dropna().reset_index(drop=True)
 
     games_df = games_df.sort_values(
