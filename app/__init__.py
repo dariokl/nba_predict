@@ -46,12 +46,14 @@ def create_app():
 
         # Count total items for pagination logic
         count_query = """
-            SELECT COUNT(*)
+            SELECT 
+                COUNT(*) AS total_items,
+                SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
             FROM predictions
-            WHERE type = 'trend' AND DATE(date) = ?
+            WHERE type = 'trend' AND win IS NOT NULL AND DATE(date) = ?
         """
-        total_items = cursor.execute(count_query, (today,)).fetchone()[0]
-        total_pages = ceil(total_items / items_per_page)
+        result = cursor.execute(count_query, (today,)).fetchone()
+        total_pages = ceil(result[0] / items_per_page)
 
         # Query paginated items
         query = """
@@ -59,10 +61,12 @@ def create_app():
                 'player_name', player_name,
                 'betline', betline,
                 'over_under', over_under,
-                'predicted_points', predicted_points
+                'predicted_points', predicted_points,
+                'win', win,
+                'scored_points', scored_points
             ) as item
             FROM predictions
-            WHERE type = 'trend' AND DATE(date) = ?
+            WHERE type = 'ema' AND DATE(date) = ?
             LIMIT ? OFFSET ?
         """
         rows = cursor.execute(
@@ -76,7 +80,8 @@ def create_app():
         context = {
             "predictions": predictions,
             "page": page,
-            "total_pages": total_pages
+            "total_pages": total_pages,
+            "win_percentage": 0
         }
 
         return context

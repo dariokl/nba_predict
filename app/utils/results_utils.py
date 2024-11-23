@@ -12,7 +12,7 @@ db_path = os.path.join(os.path.dirname(__file__),
 
 def fill_win_column():
     today = datetime.today()
-    yesterday = today - timedelta(days=1)
+    yesterday = today - timedelta(days=0)
     yesterday = yesterday.strftime('%Y-%m-%d')
 
     if not os.path.exists(db_path):
@@ -24,7 +24,7 @@ def fill_win_column():
 
     query = f"""
         SELECT player_name, betline, over_under, type
-        FROM predictions
+        FROM predictions_test
         WHERE win is NULL and DATE(date) = ?
         """
     rows = cursor.execute(query, (yesterday,)).fetchall()
@@ -49,7 +49,7 @@ def fill_win_column():
             win = 0
 
         update_query = f"""
-        UPDATE predictions
+        UPDATE predictions_test
         SET scored_points = ?, win = ?
         WHERE win IS NULL and DATE(date) = ? and player_name = ? and type = ?
         """
@@ -67,7 +67,7 @@ def predictions_stats():
         return
 
     today = datetime.today()
-    yesterday = today - timedelta(days=1)
+    yesterday = today - timedelta(days=0)
     yesterday = yesterday.strftime('%Y-%m-%d')
 
     connection = sq.connect(db_path)
@@ -82,10 +82,10 @@ def predictions_stats():
         SELECT
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
-        FROM predictions
-        WHERE win IS NOT NULL and type = ? and date(date) = ?
+        FROM predictions_test
+        WHERE win IS NOT NULL and type = ?
         """
-        result = cursor.execute(query, (prediciton_type, yesterday)).fetchone()
+        result = cursor.execute(query, (prediciton_type,)).fetchone()
 
         total_predictions = result[0]  # Total valid predictions
         total_wins = result[1]

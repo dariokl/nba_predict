@@ -76,8 +76,8 @@ def predict_from_json(type):
     predictions_df['date'] = pd.to_datetime(
         (datetime.now() - timedelta(days=0)).date(), format='%b %d, %Y')
 
-    connection = sq.connect(db_path.format('predictions'))
-    predictions_df.to_sql('predictions', connection,
+    connection = sq.connect(db_path.format('predictions_test'))
+    predictions_df.to_sql('predictions_test', connection,
                           if_exists='append', index=False)
 
     print('Saved predictions')

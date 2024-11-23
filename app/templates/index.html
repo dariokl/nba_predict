@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <div class="flex items-center justify-center pt-6 h-full" 
     x-data="data()"
-    x-init="{ predictions, page, total_pages } = await (await fetch('/predictions')).json()">
+    x-init="{ predictions, page, total_pages, win_percentage } = await (await fetch('/predictions')).json()">
     <div class="p-6 overflow-scroll px-0 bg-white shadow-lg rounded-lg">
         <table class="w-full min-w-max w-[300px] table-auto text-left">
             <thead>
@@ -26,6 +26,16 @@
                             Prediction U/O
                         </p>
                     </th>
+                    <th class="border-y border-blue-gray-100 bg-gray-200/50 p-4">
+                        <p class="block font-sans text-sm text-blue-gray-900 font-normal leading-none opacity-70">
+                            Win / Lose
+                        </p>
+                    </th>
+                    <th class="border-y border-blue-gray-100 bg-gray-200/50 p-4">
+                        <p class="block font-sans text-sm text-blue-gray-900 font-normal leading-none opacity-70">
+                            Scored Points
+                        </p>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +56,6 @@
                                 class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
                             </p>
                         </td>
-                        </td>
                         <td class="p-4 border-b border-blue-gray-50">
                             <div class="w-max">
 
@@ -56,6 +65,16 @@
                                     <span x-text="prediction.over_under"></span>
                                 </div>
                             </div>
+                        </td>
+                        <td x-data="{is_win: prediction.win == 1 ? 'W' : 'L'}" class="p-4 border-b border-blue-gray-50">
+                            <p x-text="is_win"
+                                class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                            </p>
+                        </td>
+                        <td  class="p-4 border-b border-blue-gray-50">
+                            <p x-text="prediction.scored_points"
+                                class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                            </p>
                         </td>
                     </tr>
                 </template>
@@ -89,6 +108,7 @@
                             clip-rule="evenodd" />
                     </svg>
                 </a>
+                <span x-text='win_percentage'>sdas</span>
             </nav>
         </div>
     </div>
@@ -99,6 +119,7 @@
             predictions: [],
             page: 1,
             total_pages: 0,
+            win_percentage: 0,
             async fetchPredictions(page) {
                 try {
                     // Use this.page for the current page
@@ -107,6 +128,7 @@
                     this.predictions = request.predictions;
                     this.total_pages = request.total_pages;
                     this.page = page
+                    this.win_percentage = response.win_percentage
                 } catch (error) {
                     console.error("Error fetching predictions:", error);
                 }
