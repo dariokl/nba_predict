@@ -82,7 +82,7 @@ def predictions_stats():
         SELECT
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
-        FROM predictions_test
+        FROM predictions
         WHERE win IS NOT NULL and type = ?
         """
         result = cursor.execute(query, (prediciton_type,)).fetchone()

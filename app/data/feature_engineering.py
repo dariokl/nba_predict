@@ -20,9 +20,12 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df['GAME_DATE'] = pd.to_datetime(
         games_df['GAME_DATE'], format='%b %d, %Y')
 
-    today = pd.Timestamp('today').normalize()  # Normalize to remove time part
+    today = pd.Timestamp('today').normalize()
 
     games_df['DAYS_SINCE_LAST_GAME'] = (today - games_df['GAME_DATE']).dt.days
+
+    games_df['HOME'] = games_df['MATCHUP'].apply(
+        lambda x: 1 if 'vs.' in x else 0)
 
     games_df = games_df.drop(
         columns=['GAME_DATE', 'MATCHUP', 'VIDEO_AVAILABLE'])
@@ -85,6 +88,14 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df['PTS_LAG_3'] = games_df['PTS'].shift(3)
     games_df['PTS_LAG_4'] = games_df['PTS'].shift(4)
     games_df['PTS_LAG_5'] = games_df['PTS'].shift(5)
+
+    games_df['OPP_W_PCT_RANK'] = opponent_df['W_PCT_RANK']
+    games_df['OPP_DREB_RANK'] = opponent_df['DREB_RANK']
+    games_df['OPP_STL_RANK'] = opponent_df['STL_RANK']
+    games_df['OPP_BLK_RANK'] = opponent_df['BLK_RANK']
+    games_df['OPP_BLKA_RANK'] = opponent_df['BLKA_RANK']
+    games_df['OPP_PF_RANK'] = opponent_df['PF_RANK']
+    games_df['TOTAL_POINTS'] = opponent_df['TOTAL_POINTS']
 
     games_df = games_df.apply(pd.to_numeric, errors='coerce')
 
