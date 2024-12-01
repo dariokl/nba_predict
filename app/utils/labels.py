@@ -33,5 +33,7 @@ rolling_average_labels = [
     'OPP_STL_RANK',
     'OPP_BLK_RANK',
     'OPP_BLKA_RANK',
-    'OPP_PF_RANK'
+    'OPP_PF_RANK',
+    'TOTAL_POINTS',
+    'HOME'
 ]

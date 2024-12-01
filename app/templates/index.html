@@ -28,6 +28,11 @@
                     </th>
                     <th class="border-y border-blue-gray-100 bg-gray-200/50 p-4">
                         <p class="block font-sans text-sm text-blue-gray-900 font-normal leading-none opacity-70">
+                            Confidence
+                        </p>
+                    </th>
+                    <th class="border-y border-blue-gray-100 bg-gray-200/50 p-4">
+                        <p class="block font-sans text-sm text-blue-gray-900 font-normal leading-none opacity-70">
                             Win / Lose
                         </p>
                     </th>
@@ -65,6 +70,11 @@
                                     <span x-text="prediction.over_under"></span>
                                 </div>
                             </div>
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <p x-text="prediction.confidence"
+                                class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                            </p>
                         </td>
                         <td x-data="{is_win: prediction.win == 1 ? 'W' : 'L'}" class="p-4 border-b border-blue-gray-50">
                             <p x-text="is_win"

@@ -34,7 +34,7 @@ def create_app():
 
     @app.route('/predictions')
     def predictions():
-        today = (datetime.today() - timedelta(days=0)
+        today = (datetime.today() - timedelta(days=1)
                  ).strftime('%Y-%m-%d')
         # Default to page 1 if no page is specified
         page = int(request.args.get('page', 1))
@@ -63,10 +63,12 @@ def create_app():
                 'over_under', over_under,
                 'predicted_points', predicted_points,
                 'win', win,
-                'scored_points', scored_points
+                'scored_points', scored_points,
+                'confidence', confidence
             ) as item
             FROM predictions
-            WHERE type = 'ema' AND DATE(date) = ?
+            WHERE type = 'trend' AND DATE(date) = ?
+            ORDER BY confidence DESC  -- Added sorting here
             LIMIT ? OFFSET ?
         """
         rows = cursor.execute(

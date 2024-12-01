@@ -162,7 +162,6 @@ def fill_teams_data():
                 team_id_nullable=team_id, date_from_nullable=yesterday, season_nullable='2024-25')
             game_data = game_log.get_data_frames()[0]
 
-            print(game_data)
             all_teams_data = pd.concat(
                 [all_teams_data, game_data], ignore_index=True)
 

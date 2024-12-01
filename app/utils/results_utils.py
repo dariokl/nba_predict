@@ -12,7 +12,7 @@ db_path = os.path.join(os.path.dirname(__file__),
 
 def fill_win_column():
     today = datetime.today()
-    yesterday = today - timedelta(days=0)
+    yesterday = today - timedelta(days=1)
     yesterday = yesterday.strftime('%Y-%m-%d')
 
     if not os.path.exists(db_path):
@@ -24,7 +24,7 @@ def fill_win_column():
 
     query = f"""
         SELECT player_name, betline, over_under, type
-        FROM predictions_test
+        FROM predictions
         WHERE win is NULL and DATE(date) = ?
         """
     rows = cursor.execute(query, (yesterday,)).fetchall()
@@ -34,8 +34,10 @@ def fill_win_column():
 
     for row in rows:
         player_name, betline, over_under, type_ = row
-
-        performance = get_player_recent_performance(player_name)
+        try:
+            performance = get_player_recent_performance(player_name)
+        except:
+            continue
 
         if performance.empty:
             continue
@@ -49,9 +51,9 @@ def fill_win_column():
             win = 0
 
         update_query = f"""
-        UPDATE predictions_test
+        UPDATE predictions
         SET scored_points = ?, win = ?
-        WHERE win IS NULL and DATE(date) = ? and player_name = ? and type = ?
+        WHERE win IS NULL and DATE(date) = ? and player_name = ?
         """
         cursor.execute(update_query, (float(actual_points),
                        win, yesterday, player_name, type_))
@@ -67,7 +69,7 @@ def predictions_stats():
         return
 
     today = datetime.today()
-    yesterday = today - timedelta(days=0)
+    yesterday = today - timedelta(days=1)
     yesterday = yesterday.strftime('%Y-%m-%d')
 
     connection = sq.connect(db_path)
@@ -83,7 +85,7 @@ def predictions_stats():
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
         FROM predictions
-        WHERE win IS NOT NULL and type = ?
+        WHERE win IS NOT NULL and type = ? and confidence > 92.0
         """
         result = cursor.execute(query, (prediciton_type,)).fetchone()
 
