@@ -53,7 +53,7 @@ def fill_win_column():
         update_query = f"""
         UPDATE predictions
         SET scored_points = ?, win = ?
-        WHERE win IS NULL and DATE(date) = ? and player_name = ?
+        WHERE win IS NULL and DATE(date) = ? and player_name = ? and type = ?
         """
         cursor.execute(update_query, (float(actual_points),
                        win, yesterday, player_name, type_))
@@ -85,7 +85,7 @@ def predictions_stats():
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
         FROM predictions
-        WHERE win IS NOT NULL and type = ? and confidence > 92.0
+        WHERE win IS NOT NULL and type = ?
         """
         result = cursor.execute(query, (prediciton_type,)).fetchone()
 

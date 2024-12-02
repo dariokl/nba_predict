@@ -34,7 +34,7 @@ def create_app():
 
     @app.route('/predictions')
     def predictions():
-        today = (datetime.today() - timedelta(days=1)
+        today = (datetime.today() - timedelta(days=0)
                  ).strftime('%Y-%m-%d')
         # Default to page 1 if no page is specified
         page = int(request.args.get('page', 1))
@@ -47,10 +47,9 @@ def create_app():
         # Count total items for pagination logic
         count_query = """
             SELECT 
-                COUNT(*) AS total_items,
-                SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
+                COUNT(*) AS total_items
             FROM predictions
-            WHERE type = 'trend' AND win IS NOT NULL AND DATE(date) = ?
+            WHERE type = 'trend' AND DATE(date) = ?
         """
         result = cursor.execute(count_query, (today,)).fetchone()
         total_pages = ceil(result[0] / items_per_page)
@@ -83,7 +82,6 @@ def create_app():
             "predictions": predictions,
             "page": page,
             "total_pages": total_pages,
-            "win_percentage": 0
         }
 
         return context
