@@ -2,31 +2,46 @@ import matplotlib.pyplot as plt
 import xgboost as xgb
 import os
 
+# Load the model
 model = os.path.join(os.path.dirname(__file__),
-                     '../..', 'model_-0.034003352103285714_17-11.json')
+                     '../..', 'model_-0.08434229790945078-29-11.json')
 
 best_model = xgb.XGBRegressor()
 best_model.load_model(model)
-# 'weight' is the number of times a feature is used
-figsize = (50, 40)  # Width, Height in inches
 
-# 'weight' is the number of times a feature is used
 
-xgb.plot_importance(best_model, importance_type='weight', max_num_features=50)
-plt.rcParams['figure.figsize'] = [5, 5]
-plt.title("Feature Importance by Weight")
-plt.savefig('feature_importance_weight.png')  # High resolution
-plt.close()
+def save_feature_importance_plot(importance_type, filename, title, figsize=(15, 10), rotation=45):
+    ax = xgb.plot_importance(best_model,
+                             importance_type=importance_type,
+                             )
+    ax.figure.set_size_inches(figsize)
+    ax.set_title(title, fontsize=16)
+    ax.set_xlabel("Importance", fontsize=12)
+    ax.set_ylabel("Features", fontsize=12)
+    ax.tick_params(axis='x', labelsize=10, rotation=rotation)
+    ax.tick_params(axis='y', labelsize=10)
+    plt.tight_layout()  # Automatically adjust layout to avoid overlapping
+    plt.savefig(filename, dpi=300)  # Save with high resolution
+    plt.close()
 
-# 'gain' is the average gain of each feature
-xgb.plot_importance(best_model, importance_type='gain', max_num_features=50)
-plt.title("Feature Importance by Gain")
-plt.savefig('feature_importance_gain.png')  # High resolution
-plt.close()
 
-# 'cover' is the average coverage of each feature
+# Plot and save feature importance by 'weight'
+save_feature_importance_plot(
+    importance_type='weight',
+    filename='feature_importance_weight.png',
+    title="Feature Importance by Weight"
+)
 
-xgb.plot_importance(best_model, importance_type='cover', max_num_features=50)
-plt.title("Feature Importance by Cover")
-plt.savefig('feature_importance_cover.png')  # High resolution
-plt.close()
+# Plot and save feature importance by 'gain'
+save_feature_importance_plot(
+    importance_type='gain',
+    filename='feature_importance_gain.png',
+    title="Feature Importance by Gain"
+)
+
+# Plot and save feature importance by 'cover'
+save_feature_importance_plot(
+    importance_type='cover',
+    filename='feature_importance_cover.png',
+    title="Feature Importance by Cover"
+)

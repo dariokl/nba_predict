@@ -131,8 +131,9 @@ def fill_players_data():
                 player_id=player_id, date_from_nullable=yesterday, season='2024-25')
             game_data = game_log.get_data_frames()[0]
 
-            all_players_data = pd.concat(
-                [all_players_data, game_data], ignore_index=True)
+            if not game_data.empty and not game_data.isna().all(axis=None):
+                all_players_data = pd.concat(
+                    [all_players_data, game_data], ignore_index=True)
 
             sleep(1)
         except Exception as e:
@@ -161,9 +162,9 @@ def fill_teams_data():
             game_log = teamgamelogs.TeamGameLogs(
                 team_id_nullable=team_id, date_from_nullable=yesterday, season_nullable='2024-25')
             game_data = game_log.get_data_frames()[0]
-
-            all_teams_data = pd.concat(
-                [all_teams_data, game_data], ignore_index=True)
+            if not game_data.empty and not game_data.isna().all(axis=None):
+                all_teams_data = pd.concat(
+                    [all_teams_data, game_data], ignore_index=True)
 
             sleep(1)
         except Exception as e:
