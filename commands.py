@@ -97,7 +97,6 @@ def main():
         case 'predict-all':
             predict_from_json('mean')
             predict_from_json('trend')
-            predict_from_json('ema')
         case 'predict-mean':
             predict_from_json('mean')
         case 'predict-trend':

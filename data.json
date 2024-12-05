@@ -1,35 +1,27 @@
 [
   {
-    "name": "Alex Sarr",
-    "points": "10.5"
-  },
-  {
-    "name": "Brook Lopez",
-    "points": "11.5"
-  },
-  {
-    "name": "Bobby Portis",
-    "points": "11.5"
-  },
-  {
-    "name": "Bilal Coulibaly",
-    "points": "10.5"
-  },
-  {
-    "name": "Cade Cunningham",
-    "points": "22.5"
-  },
-  {
-    "name": "Corey Kispert",
+    "name": "Aaron Gordon",
     "points": "12.5"
+  },
+  {
+    "name": "Alex Sarr",
+    "points": "11.5"
+  },
+  {
+    "name": "Christian Braun",
+    "points": "12.5"
+  },
+  {
+    "name": "Caris LeVert",
+    "points": "10.5"
   },
   {
     "name": "Darius Garland",
     "points": "19.5"
   },
   {
-    "name": "Damian Lillard",
-    "points": "24.5"
+    "name": "Dereck Lively",
+    "points": "8.5"
   },
   {
     "name": "Donovan Mitchell",
@@ -37,195 +29,23 @@
   },
   {
     "name": "Evan Mobley",
-    "points": "17.5"
+    "points": "16.5"
   },
   {
-    "name": "Giannis Antetokounmpo",
-    "points": "30.5"
-  },
-  {
-    "name": "Gary Trent Jr.",
+    "name": "Georges Niang",
     "points": "8.5"
   },
   {
-    "name": "Isaiah Stewart",
-    "points": "6.5"
+    "name": "Isaac Okoro",
+    "points": "7.5"
   },
   {
     "name": "Jarrett Allen",
-    "points": "13.5"
-  },
-  {
-    "name": "Jalen Duren",
-    "points": "8.5"
-  },
-  {
-    "name": "Jaden Ivey",
-    "points": "16.5"
-  },
-  {
-    "name": "Jordan Poole",
-    "points": "22.5"
-  },
-  {
-    "name": "Jonas Valančiūnas",
-    "points": "13.5"
-  },
-  {
-    "name": "Malik Beasley",
-    "points": "13.5"
-  },
-  {
-    "name": "Malcolm Brogdon",
-    "points": "16.5"
-  },
-  {
-    "name": "Tim Hardaway Jr.",
-    "points": "8.5"
-  },
-  {
-    "name": "Tobias Harris",
     "points": "12.5"
   },
   {
-    "name": "Taurean Prince",
-    "points": "7.5"
-  },
-  {
-    "name": "Bennedict Mathurin",
-    "points": "19.5"
-  },
-  {
-    "name": "Franz Wagner",
-    "points": "26.5"
-  },
-  {
-    "name": "Goga Bitadze",
-    "points": "8.5"
-  },
-  {
-    "name": "Jalen Brunson",
-    "points": "23.5"
-  },
-  {
-    "name": "Josh Hart",
-    "points": "12.5"
-  },
-  {
-    "name": "Jakob Poeltl",
-    "points": "15.5"
-  },
-  {
-    "name": "Jalen Suggs",
-    "points": "14.5"
-  },
-  {
-    "name": "Kentavious Caldwell-Pope",
-    "points": "9.5"
-  },
-  {
-    "name": "Karl-Anthony Towns",
-    "points": "23.5"
-  },
-  {
-    "name": "Miles McBride",
-    "points": "8.5"
-  },
-  {
-    "name": "Myles Turner",
-    "points": "16.5"
-  },
-  {
-    "name": "Moritz Wagner",
-    "points": "11.5"
-  },
-  {
-    "name": "Mikal Bridges",
-    "points": "13.5"
-  },
-  {
-    "name": "OG Anunoby",
-    "points": "14.5"
-  },
-  {
-    "name": "Obi Toppin",
-    "points": "10.5"
-  },
-  {
-    "name": "Pascal Siakam",
-    "points": "20.5"
-  },
-  {
-    "name": "RJ Barrett",
-    "points": "24.5"
-  },
-  {
-    "name": "Scottie Barnes",
-    "points": "22.5"
-  },
-  {
-    "name": "Tyrese Haliburton",
-    "points": "17.5"
-  },
-  {
-    "name": "Wendell Carter Jr.",
-    "points": "8.5"
-  },
-  {
-    "name": "Collin Sexton",
-    "points": "15.5"
-  },
-  {
-    "name": "Isaiah Hartenstein",
-    "points": "12.5"
-  },
-  {
-    "name": "John Collins",
-    "points": "15.5"
-  },
-  {
-    "name": "Jalen Williams",
-    "points": "23.5"
-  },
-  {
-    "name": "Keyonte George",
-    "points": "13.5"
-  },
-  {
-    "name": "Luguentz Dort",
-    "points": "9.5"
-  },
-  {
-    "name": "Lauri Markkanen",
-    "points": "20.5"
-  },
-  {
-    "name": "Shai Gilgeous-Alexander",
-    "points": "30.5"
-  },
-  {
-    "name": "Walker Kessler",
-    "points": "8.5"
-  },
-  {
-    "name": "Brandon Clarke",
-    "points": "7.5"
-  },
-  {
-    "name": "Desmond Bane",
-    "points": "16.5"
-  },
-  {
-    "name": "Dereck Lively II",
-    "points": "7.5"
-  },
-  {
-    "name": "Ja Morant",
-    "points": "19.5"
-  },
-  {
-    "name": "Jaren Jackson Jr.",
-    "points": "19.5"
+    "name": "Jamal Murray",
+    "points": "18.5"
   },
   {
     "name": "Kyrie Irving",
@@ -233,67 +53,123 @@
   },
   {
     "name": "Klay Thompson",
-    "points": "13.5"
+    "points": "10.5"
   },
   {
-    "name": "Luka Dončić",
-    "points": "28.5"
+    "name": "Luka Doncic",
+    "points": "29.5"
+  },
+  {
+    "name": "Malcolm Brogdon",
+    "points": "16.5"
+  },
+  {
+    "name": "Michael Porter Jr.",
+    "points": "15.5"
+  },
+  {
+    "name": "Nikola Jokic",
+    "points": "27.5"
   },
   {
     "name": "P.J. Washington",
     "points": "13.5"
   },
   {
-    "name": "Bradley Beal",
-    "points": "14.5"
-  },
-  {
-    "name": "Chris Paul",
+    "name": "Russell Westbrook",
     "points": "9.5"
   },
   {
-    "name": "Devin Booker",
+    "name": "Brandon Miller",
+    "points": "26.5"
+  },
+  {
+    "name": "Isaiah Hartenstein",
+    "points": "12.5"
+  },
+  {
+    "name": "Jalen Brunson",
     "points": "24.5"
   },
   {
-    "name": "Harrison Barnes",
+    "name": "Josh Green",
+    "points": "9.5"
+  },
+  {
+    "name": "Josh Hart",
+    "points": "12.5"
+  },
+  {
+    "name": "Jakob Poeltl",
+    "points": "14.5"
+  },
+  {
+    "name": "Jalen Williams",
+    "points": "22.5"
+  },
+  {
+    "name": "Karl-Anthony Towns",
+    "points": "24.5"
+  },
+  {
+    "name": "Luguentz Dort",
     "points": "10.5"
   },
   {
-    "name": "Julian Champagnie",
-    "points": "11.5"
+    "name": "Mikal Bridges",
+    "points": "14.5"
   },
   {
-    "name": "Kevin Durant",
-    "points": "24.5"
+    "name": "OG Anunoby",
+    "points": "15.5"
   },
   {
-    "name": "Tyus Jones",
-    "points": "10.5"
+    "name": "RJ Barrett",
+    "points": "22.5"
   },
   {
-    "name": "Victor Wembanyama",
-    "points": "24.5"
+    "name": "Scottie Barnes",
+    "points": "21.5"
   },
   {
-    "name": "Alperen Şengün",
+    "name": "Shai Gilgeous-Alexander",
+    "points": "29.5"
+  },
+  {
+    "name": "Tidjane Salaun",
+    "points": "7.5"
+  },
+  {
+    "name": "Ayo Dosunmu",
+    "points": "15.5"
+  },
+  {
+    "name": "Bradley Beal",
+    "points": "18.5"
+  },
+  {
+    "name": "Brandon Clarke",
+    "points": "7.5"
+  },
+  {
+    "name": "Brandon Ingram",
+    "points": "19.5"
+  },
+  {
+    "name": "CJ McCollum",
     "points": "20.5"
   },
   {
-    "name": "Amen Thompson",
-    "points": "12.5"
+    "name": "Chris Paul",
+    "points": "11.5"
   },
   {
-    "name": "Andrew Wiggins",
-    "points": "17.5"
+    "name": "Desmond Bane",
+    "points": "15.5"
   },
   {
-    "name": "Christian Braun",
-    "points": "12.5"
-  },
-  {
-    "name": "Dillon Brooks",
-    "points": "12.5"
+    "name": "Devin Booker",
+    "points": "29.5"
   },
   {
     "name": "DeMar DeRozan",
@@ -304,28 +180,44 @@
     "points": "24.5"
   },
   {
-    "name": "Draymond Green",
-    "points": "8.5"
+    "name": "Dejounte Murray",
+    "points": "20.5"
   },
   {
     "name": "Domantas Sabonis",
-    "points": "17.5"
+    "points": "18.5"
   },
   {
-    "name": "Fred VanVleet",
+    "name": "Devin Vassell",
     "points": "16.5"
   },
   {
-    "name": "Jamal Murray",
-    "points": "19.5"
-  },
-  {
-    "name": "Jabari Smith Jr.",
+    "name": "Harrison Barnes",
     "points": "11.5"
   },
   {
-    "name": "Jalen Green",
-    "points": "17.5"
+    "name": "Josh Giddey",
+    "points": "14.5"
+  },
+  {
+    "name": "Ja Morant",
+    "points": "21.5"
+  },
+  {
+    "name": "Jaylen Wells",
+    "points": "10.5"
+  },
+  {
+    "name": "Jaren Jackson Jr.",
+    "points": "19.5"
+  },
+  {
+    "name": "Julian Champagnie",
+    "points": "12.5"
+  },
+  {
+    "name": "Keldon Johnson",
+    "points": "12.5"
   },
   {
     "name": "Keegan Murray",
@@ -333,58 +225,66 @@
   },
   {
     "name": "Malik Monk",
-    "points": "15.5"
+    "points": "17.5"
   },
   {
-    "name": "Michael Porter Jr.",
-    "points": "16.5"
+    "name": "Marcus Smart",
+    "points": "10.5"
   },
   {
-    "name": "Nikola Jokić",
-    "points": "28.5"
+    "name": "Nikola Vucevic",
+    "points": "19.5"
   },
   {
-    "name": "Stephen Curry",
-    "points": "23.5"
+    "name": "Santi Aldama",
+    "points": "10.5"
   },
   {
-    "name": "Tari Eason",
+    "name": "Tyus Jones",
+    "points": "12.5"
+  },
+  {
+    "name": "Yves Missi",
     "points": "9.5"
   },
   {
-    "name": "Anfernee Simons",
-    "points": "18.5"
+    "name": "Zach Collins",
+    "points": "12.5"
   },
   {
-    "name": "Deandre Ayton",
-    "points": "14.5"
-  },
-  {
-    "name": "Derrick Jones Jr.",
-    "points": "8.5"
-  },
-  {
-    "name": "Ivica Zubac",
-    "points": "15.5"
-  },
-  {
-    "name": "Jerami Grant",
-    "points": "13.5"
-  },
-  {
-    "name": "James Harden",
+    "name": "Zach LaVine",
     "points": "22.5"
   },
   {
-    "name": "Norman Powell",
-    "points": "20.5"
+    "name": "Alperen Sengun",
+    "points": "22.5"
   },
   {
-    "name": "Shaedon Sharpe",
+    "name": "Andrew Wiggins",
+    "points": "18.5"
+  },
+  {
+    "name": "Brandin Podziemski",
+    "points": "12.5"
+  },
+  {
+    "name": "Dillon Brooks",
+    "points": "13.5"
+  },
+  {
+    "name": "Fred VanVleet",
     "points": "16.5"
   },
   {
-    "name": "Toumani Camara",
-    "points": "8.5"
+    "name": "Jonathan Kuminga",
+    "points": "18.5"
+  },
+  {
+    "name": "Jabari Smith",
+    "points": "13.5"
+  },
+  {
+    "name": "Jalen Green",
+    "points": "20.5"
   }
 ]

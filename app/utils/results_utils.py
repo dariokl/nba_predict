@@ -75,8 +75,8 @@ def predictions_stats():
     connection = sq.connect(db_path)
     cursor = connection.cursor()
 
-    # List of tables to process
-    types = ['ema', 'trend', 'mean']
+    # List of predictions to process
+    types = ['trend', 'mean']
 
     for prediciton_type in types:
         # Count wins (1) and total valid predictions (excluding 'DNP')
@@ -85,7 +85,7 @@ def predictions_stats():
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
         FROM predictions
-        WHERE win IS NOT NULL and type = ? and confidence > 92
+        WHERE win IS NOT NULL and type = ? and confidence > 92 and confidence < 97
         """
         result = cursor.execute(query, (prediciton_type,)).fetchone()
 
