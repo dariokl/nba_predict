@@ -23,4 +23,3 @@ player_performance_copy.csv
 feature_importance*
 model_*
 nba_predict copy.sqlite
-nba_predict.sqlite
