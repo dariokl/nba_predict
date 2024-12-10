@@ -66,7 +66,7 @@ def create_app():
                 'confidence', confidence
             ) as item
             FROM predictions
-            WHERE type = 'trend' AND DATE(date) = ? and confidence > 92 and confidence < 97
+            WHERE type = 'trend' AND DATE(date) = ?
             ORDER BY confidence DESC  -- Added sorting here
             LIMIT ? OFFSET ?
         """
