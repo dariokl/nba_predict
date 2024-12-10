@@ -85,7 +85,7 @@ def predictions_stats():
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
         FROM predictions
-        WHERE win IS NOT NULL and type = ?
+        WHERE win IS NOT NULL and type = ? and confidence > 92 and confidence < 97
         """
         result = cursor.execute(query, (prediciton_type,)).fetchone()
 
