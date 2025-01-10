@@ -11,7 +11,6 @@ db_path = os.path.join(os.path.dirname(__file__),
 def fill_data_to_db():
     players_data = fill_players_data()
     teams_data = fill_teams_data()
-    shots_data = fill_shot_data()
 
     if not players_data.empty:
         connection = sq.connect(db_path.format('players_data'))
@@ -27,11 +26,3 @@ def fill_data_to_db():
                           if_exists='append', index=False)
         connection.close()
         print('Saved most recent teams data')
-
-    if not shots_data.empty:
-        connection = sq.connect(
-            db_path.format('shot_data'))
-        shots_data.to_sql('shot_data', connection,
-                          if_exists='append', index=False)
-        connection.close()
-        print('Saved most recent shots data')

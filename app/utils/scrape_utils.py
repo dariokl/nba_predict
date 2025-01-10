@@ -16,7 +16,7 @@ db_path = os.path.join(os.path.dirname(__file__),
                        '../..', 'nba_predict.sqlite')
 
 today = datetime.today()
-yesterday = today - timedelta(days=1)
+yesterday = today - timedelta(days=31)
 yesterday = yesterday.strftime("%m/%d/%Y")
 
 
@@ -49,33 +49,6 @@ def scrape_seasons():
 
     all_players_data.to_csv(csv_file, index=False)
     print(f"Data saved to {csv_file}")
-
-
-def scrape_shot_data():
-    seasons = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25"]
-
-    all_shot_data = pd.DataFrame()
-
-    for season in seasons:
-        print(f"  Season: {season}")
-        try:
-            shot_log = shotchartdetail.ShotChartDetail(
-                team_id=0,
-                player_id=0,
-                context_measure_simple='FGA',
-                season_nullable=season)
-            shot_log = shot_log.get_data_frames()[0]
-
-            all_shot_data = pd.concat(
-                [all_shot_data, shot_log], ignore_index=True)
-
-            sleep(1)
-        except Exception as e:
-            print(
-                f"Error shot data seasson {season}: {e}")
-            continue
-
-    return all_shot_data
 
 
 def scrape_season(season):
@@ -196,28 +169,3 @@ def fill_teams_data():
             continue
 
     return all_teams_data
-
-
-def fill_shot_data():
-    season = '2024-25'
-
-    all_shot_data = pd.DataFrame()
-
-    try:
-        shot_log = shotchartdetail.ShotChartDetail(
-            team_id=0,
-            player_id=0,
-            context_measure_simple='FGA',
-            date_from_nullable=yesterday,
-            season_nullable=season)
-        shot_log = shot_log.get_data_frames()[0]
-
-        all_shot_data = pd.concat(
-            [all_shot_data, shot_log], ignore_index=True)
-
-        sleep(1)
-    except Exception as e:
-        print(
-            f"Error shot data seasson {season}: {e}")
-
-    return all_shot_data

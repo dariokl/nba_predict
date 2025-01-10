@@ -1,38 +1,242 @@
 [
   {
-    "name": "Gradey Dick",
+    "name": "Anthony Edwards",
+    "points": "26.5"
+  },
+  {
+    "name": "Cade Cunningham",
+    "points": "25.5"
+  },
+  {
+    "name": "Donte DiVincenzo",
+    "points": "10.5"
+  },
+  {
+    "name": "Darius Garland",
+    "points": "23.5"
+  },
+  {
+    "name": "Evan Mobley",
+    "points": "19.5"
+  },
+  {
+    "name": "Gary Dick",
+    "points": "12.5"
+  },
+  {
+    "name": "Immanuel Quickley",
+    "points": "14.5"
+  },
+  {
+    "name": "Jarrett Allen",
     "points": "15.5"
   },
   {
-    "name": "Jalen Brunson",
-    "points": "24.5"
+    "name": "Jalen Duren",
+    "points": "9.5"
   },
   {
-    "name": "Josh Hart",
-    "points": "13.5"
+    "name": "Jaden McDaniels",
+    "points": "9.5"
   },
   {
     "name": "Jakob Poeltl",
-    "points": "15.5"
+    "points": "10.5"
   },
   {
-    "name": "Karl-Anthony Towns",
-    "points": "24.5"
+    "name": "Julius Randle",
+    "points": "17.5"
   },
   {
-    "name": "Mikal Bridges",
+    "name": "Mike Conley",
+    "points": "6.5"
+  },
+  {
+    "name": "Nerlens Reid",
+    "points": "12.5"
+  },
+  {
+    "name": "Paolo Banchero",
     "points": "16.5"
   },
   {
-    "name": "Ochai Agbaji",
+    "name": "Rudy Gobert",
     "points": "8.5"
   },
   {
     "name": "RJ Barrett",
-    "points": "21.5"
+    "points": "20.5"
+  },
+  {
+    "name": "RJ Barrett",
+    "points": "20.5"
   },
   {
     "name": "Scottie Barnes",
+    "points": "17.5"
+  },
+  {
+    "name": "Tim Hardaway",
+    "points": "11.5"
+  },
+  {
+    "name": "Tobias Harris",
+    "points": "13.5"
+  },
+  {
+    "name": "Tobias Harris",
+    "points": "13.5"
+  },
+  {
+    "name": "Alperen Sengun",
     "points": "20.5"
+  },
+  {
+    "name": "Amen Thompson",
+    "points": "17.5"
+  },
+  {
+    "name": "Desmond Bane",
+    "points": "18.5"
+  },
+  {
+    "name": "Dillon Brooks",
+    "points": "14.5"
+  },
+  {
+    "name": "Fred VanVleet",
+    "points": "16.5"
+  },
+  {
+    "name": "Ja Morant",
+    "points": "21.5"
+  },
+  {
+    "name": "Jaren Jackson Jr.",
+    "points": "21.5"
+  },
+  {
+    "name": "Jalen Green",
+    "points": "22.5"
+  },
+  {
+    "name": "Anfernee Simons",
+    "points": "19.5"
+  },
+  {
+    "name": "Deni Avdija",
+    "points": "15.5"
+  },
+  {
+    "name": "Deandre Ayton",
+    "points": "14.5"
+  },
+  {
+    "name": "Klay Thompson",
+    "points": "16.5"
+  },
+  {
+    "name": "Naji Marshall",
+    "points": "13.5"
+  },
+  {
+    "name": "PJ Washington",
+    "points": "18.5"
+  },
+  {
+    "name": "Quentin Grimes",
+    "points": "14.5"
+  },
+  {
+    "name": "Quentin Grimes",
+    "points": "14.5"
+  },
+  {
+    "name": "Spencer Dinwiddie",
+    "points": "15.5"
+  },
+  {
+    "name": "Scoot Henderson",
+    "points": "10.5"
+  },
+  {
+    "name": "Shaden Sharpe",
+    "points": "18.5"
+  },
+  {
+    "name": "Bam Adebayo",
+    "points": "17.5"
+  },
+  {
+    "name": "Bam Adebayo",
+    "points": "17.5"
+  },
+  {
+    "name": "Bradley Beal",
+    "points": "15.5"
+  },
+  {
+    "name": "Bogdan Bogdanovic",
+    "points": "12.5"
+  },
+  {
+    "name": "Clint Capela",
+    "points": "9.5"
+  },
+  {
+    "name": "Collin Sexton",
+    "points": "21.5"
+  },
+  {
+    "name": "Devin Booker",
+    "points": "27.5"
+  },
+  {
+    "name": "De'Andre Hunter",
+    "points": "17.5"
+  },
+  {
+    "name": "Grayson Allen",
+    "points": "9.5"
+  },
+  {
+    "name": "Haywood Highsmith",
+    "points": "6.5"
+  },
+  {
+    "name": "Kevin Durant",
+    "points": "26.5"
+  },
+  {
+    "name": "Lauri Markkanen",
+    "points": "24.5"
+  },
+  {
+    "name": "Mason Morris",
+    "points": "6.5"
+  },
+  {
+    "name": "Nikola Jovic",
+    "points": "10.5"
+  },
+  {
+    "name": "Onyeka Okongwu",
+    "points": "9.5"
+  },
+  {
+    "name": "Tyler Herro",
+    "points": "23.5"
+  },
+  {
+    "name": "Terry Rozier",
+    "points": "14.5"
+  },
+  {
+    "name": "Trae Young",
+    "points": "25.5"
+  },
+  {
+    "name": "Tyrese Jones",
+    "points": "8.5"
   }
 ]

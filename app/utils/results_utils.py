@@ -12,7 +12,7 @@ db_path = os.path.join(os.path.dirname(__file__),
 
 def fill_win_column():
     today = datetime.today()
-    yesterday = today - timedelta(days=1)
+    yesterday = today - timedelta(days=0)
     yesterday = yesterday.strftime('%Y-%m-%d')
 
     if not os.path.exists(db_path):
@@ -69,7 +69,7 @@ def predictions_stats():
         return
 
     today = datetime.today()
-    yesterday = today - timedelta(days=1)
+    yesterday = today - timedelta(days=0)
     yesterday = yesterday.strftime('%Y-%m-%d')
 
     connection = sq.connect(db_path)
@@ -85,7 +85,7 @@ def predictions_stats():
             COUNT(*) AS total_predictions,
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
         FROM predictions
-        WHERE win IS NOT NULL and type = ?
+        WHERE win IS NOT NULL and type = ? and confidence > 90
         """
         result = cursor.execute(query, (prediciton_type,)).fetchone()
 
