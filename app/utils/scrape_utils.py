@@ -16,7 +16,7 @@ db_path = os.path.join(os.path.dirname(__file__),
                        '../..', 'nba_predict.sqlite')
 
 today = datetime.today()
-yesterday = today - timedelta(days=31)
+yesterday = today - timedelta(days=1)
 yesterday = yesterday.strftime("%m/%d/%Y")
 
 
