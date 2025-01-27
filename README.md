@@ -5,8 +5,8 @@ XGBoost regression model is used predict the number of points a player is likely
 
 Once the prediction is made:
 
-    It can be compared against a betting line (a predefined threshold set by bookmakers for a player's performance).
-    This comparison helps decide whether the player is likely to score "over" or "under" that line, aligning the regression output with the binary outcome commonly needed for sports betting decisions.
+It can be compared against a betting line (a predefined threshold set by bookmakers for a player's performance).
+This comparison helps decide whether the player is likely to score "over" or "under" that line, aligning the regression output with the binary outcome commonly needed for sports betting decisions.
 
 This combination of regression and decision-making relative to a threshold essentially bridges continuous predictions with actionable insights for the betting scenario.
 
