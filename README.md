@@ -24,9 +24,9 @@ This combination of regression and decision-making relative to a threshold essen
 
 Steps
 
-    Scrape Data
-    Use the provided commands.py file to scrape the player data.
-    Run the following command to execute the scraping process:
+Scrape Data
+Use the provided commands.py file to scrape the player data.
+Run the following command to execute the scraping process:
 
 ```bash
 python commands.py scrape
