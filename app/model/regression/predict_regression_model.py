@@ -6,7 +6,7 @@ from app.data.feature_engineering import prepare_features_with_rolling_averages
 from app.utils.labels import rolling_average_labels
 
 model = os.path.join(os.path.dirname(__file__),
-                     '../../..', 'model_-0.08434229790945078-29-11.json')
+                     '../../..', 'model_-0.0102_mae.json')
 
 
 def predict_for_player_mean(player_id, betline):
@@ -51,8 +51,6 @@ def predict_for_player_trend(player_id, betline):
         games_df = games_df.tail(5)
 
     X_player = games_df[rolling_average_labels]
-
-    print(games_df['PTS'], games_df['DAYS_SINCE_LAST_GAME'])
 
     predicted_points = best_model.predict(X_player)
     alpha = 0.5
