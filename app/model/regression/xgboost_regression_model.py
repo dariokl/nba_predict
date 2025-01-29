@@ -36,12 +36,12 @@ def train_xgboost_model(x_train, y_train):
         cv=5,
         scoring='neg_mean_squared_error',  # Using MAE as the scoring metric
         n_jobs=-1,
-        verbose=100
+        verbose=1
     )
 
     # Fit the model using GridSearchCV
     grid_search.fit(x_train, y_train, eval_set=[(x_train, y_train), (x_test, y_test)],
-                    verbose=100)
+                    verbose=1)
 
     # Save the best model found by GridSearchCV
     save_model(grid_search.best_estimator_, grid_search.best_score_)
