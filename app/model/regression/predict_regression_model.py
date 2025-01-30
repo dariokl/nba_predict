@@ -1,12 +1,17 @@
 import xgboost as xgb
 import os
 import numpy as np
+import joblib
 
 from app.data.feature_engineering import prepare_features_with_rolling_averages
 from app.utils.labels import rolling_average_labels
 
 model = os.path.join(os.path.dirname(__file__),
-                     '../../..', 'model_-0.0102.json')
+                     '../../..', 'model_-0.0103.json')
+
+scaler_file = os.path.join(os.path.dirname(__file__),
+                           '../../..', 'scaler.pkl')
+scaler = joblib.load(scaler_file)
 
 
 def predict_for_player_mean(player_id, betline):
@@ -24,6 +29,8 @@ def predict_for_player_mean(player_id, betline):
         games_df = games_df.tail(5)
 
     X_player = games_df[rolling_average_labels]
+    X_player = scaler.transform(X_player)
+
     predicted_points = best_model.predict(X_player)
 
     mean_predicted_points = np.mean(predicted_points)
@@ -51,7 +58,7 @@ def predict_for_player_trend(player_id, betline):
         games_df = games_df.tail(5)
 
     X_player = games_df[rolling_average_labels]
-
+    X_player = scaler.transform(X_player)
     predicted_points = best_model.predict(X_player)
     alpha = 0.5
     weights = (1 - alpha) ** np.arange(len(predicted_points))[::-1]
