@@ -38,6 +38,7 @@ def create_app():
                  ).strftime('%Y-%m-%d')
         # Default to page 1 if no page is specified
         page = int(request.args.get('page', 1))
+
         items_per_page = 10
         offset = (page - 1) * items_per_page
 

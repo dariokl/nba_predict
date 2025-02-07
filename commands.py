@@ -11,6 +11,7 @@ from app.data.preprocessing_players import find_players_by_full_name, get_all_ac
 from app.utils.results_utils import fill_win_column, predictions_stats
 from app.utils.scrape_utils import scrape_team_seasons, scrape_seasons
 from app.model.train_helper import train_model_and_save_model
+from app.model.regression.backtest import backtest
 from app.model.regression.predict_regression_model import predict_for_player_mean, predict_for_player_trend, predict_for_player_ema
 from app.utils.database_utils import fill_data_to_db
 
@@ -87,7 +88,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Train or predict using the XGBoost model.")
     parser.add_argument(
-        'action', choices=['train', 'predict-all', 'predict-mean', 'predict-trend', 'predict-ema', 'scrape', 'fill-predictions', 'predictions-stats', 'fill-to-db']
+        'action', choices=['train', 'predict-all', 'predict-mean', 'predict-trend', 'predict-ema', 'scrape', 'fill-predictions', 'predictions-stats', 'fill-to-db', 'backtest']
     )
     args = parser.parse_args()
 
@@ -113,6 +114,8 @@ def main():
             predictions_stats()
         case 'fill-to-db':
             fill_data_to_db()
+        case 'backtest':
+            backtest()
 
 
 if __name__ == "__main__":
