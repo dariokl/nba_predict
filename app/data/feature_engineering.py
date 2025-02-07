@@ -46,10 +46,6 @@ def preprocess_games_data(games_df):
         lambda x: 1 if 'vs.' in x else 0)
     games_df['WL'] = games_df['WL'].apply(lambda x: 1 if x == 'W' else 0)
 
-    # Lag features
-    for lag in range(1, 6):
-        games_df[f'PTS_LAG_{lag}'] = games_df['PTS'].shift(lag)
-
     return games_df.drop(columns=['GAME_DATE', 'MATCHUP', 'VIDEO_AVAILABLE'])
 
 
@@ -58,7 +54,7 @@ def calculate_rolling_averages(games_df, rolling_window):
     Calculate rolling averages and standard deviations for key features.
     """
     rolling_features = ['PTS', 'MIN', 'FG_PCT', 'FGM', 'FGA', 'FG3M', 'FG3A',
-                        'FG3_PCT', 'FTM', 'FTA', 'FT_PCT', 'REB', 'AST']
+                        'FG3_PCT', 'FTM', 'FT_PCT', 'REB', 'AST']
 
     for feature in rolling_features:
         games_df[f'{feature}_ROLL_AVG'] = games_df[feature].rolling(
@@ -89,8 +85,6 @@ def calculate_advanced_metrics(games_df):
     games_df['PER'] = games_df['PER'].replace([np.inf, -np.inf], np.nan)
     games_df['ROLLING_PER'] = games_df['PER'].rolling(window=5).mean()
 
-    # Additional metrics
-    games_df['PTS_X_MIN'] = games_df['PTS'] * games_df['MIN']
     games_df['FGM_FGA_RATIO'] = games_df['FGM'] / (games_df['FGA'] + 1e-6)
     games_df['3PM_3PA_RATIO'] = games_df['FG3M'] / (games_df['FG3A'] + 1e-6)
     games_df['REST_IMPACT'] = games_df['DAYS_SINCE_LAST_GAME'] * \
@@ -103,8 +97,7 @@ def add_opponent_metrics(games_df, opponent_df):
     """
     Add opponent-related metrics to the game dataset.
     """
-    opponent_metrics = ['W_PCT_RANK', 'DREB_RANK', 'STL_RANK', 'BLK_RANK',
-                        'BLKA_RANK', 'PF_RANK']
+    opponent_metrics = ['W_PCT_RANK', 'STL_RANK', 'PF_RANK']
 
     for metric in opponent_metrics:
         games_df[f'OPP_{metric}'] = opponent_df[metric]

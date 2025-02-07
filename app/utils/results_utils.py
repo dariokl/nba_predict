@@ -80,14 +80,18 @@ def predictions_stats():
 
     for prediciton_type in types:
         # Count wins (1) and total valid predictions (excluding 'DNP')
-        query = f"""
-        SELECT
-            COUNT(*) AS total_predictions,
+        query = """
+        SELECT 
+            COUNT(*) AS total_predictions, 
             SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
-        FROM predictions
-        WHERE win IS NOT NULL and type = ? and DATE(date) = ?
+        FROM (
+            SELECT win 
+            FROM predictions
+            WHERE win IS NOT NULL AND type = ?
+            LIMIT 500
+        ) subquery;
         """
-        result = cursor.execute(query, (prediciton_type, yesterday)).fetchone()
+        result = cursor.execute(query, (prediciton_type,)).fetchone()
 
         print(result)
         total_predictions = result[0]  # Total valid predictions

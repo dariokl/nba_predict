@@ -1,6 +1,7 @@
 import os
 import sqlite3 as sq
 from datetime import datetime
+import pandas as pd
 
 from nba_api.stats.static import players
 
@@ -19,28 +20,28 @@ def backtest():
     correct_predictions = 0
     total_predictions = 0
 
-    for prediction in predictions:
+    for prediction in predictions[0: 500]:
         name, predicted_points, betline, scored_points, date = prediction
 
+        # Convert prediction date to datetime format
         prediction_date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
 
-        today = datetime.today()
-        days_since_prediction = (today - prediction_date)
-
+        # Get player info
         player = players.find_players_by_full_name(name)
         games_df = prepare_features_with_rolling_averages(player[0]['id'])
 
-        games_df['days_difference'] = abs(
-            games_df['DAYS_SINCE_LAST_GAME'] - (days_since_prediction).days)
-        closest_10_games = games_df.nsmallest(5, 'days_difference')
+        # Ensure GAME_DATE is in datetime format
+        games_df['GAME_DATE'] = pd.to_datetime(games_df['GAME_DATE'])
 
-        print(date)
-        print(closest_10_games)
+        # Filter for games that happened BEFORE or ON the prediction date
+        past_games = games_df[games_df['GAME_DATE'] <= prediction_date]
 
-        return
+        # Get the 5 most recent games before or on prediction_date
+        last_5_games = past_games.sort_values(
+            by='GAME_DATE', ascending=False).head(5)
 
         over_under, predicted_points, tree = backtest_trend_predict(
-            games_df, betline)
+            last_5_games, betline)
 
         print(f"Prediction: {predicted_points}, Betline: {
               betline}, Scored Points: {scored_points}")
