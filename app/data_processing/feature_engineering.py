@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 from time import sleep
 
-from .preprocessing_players import get_player_game_logs
-from .preprocessing_teams import get_team_game_logs
+from .player_preprocessing import get_player_game_logs
+from .team_preprocessing import get_team_game_logs
 
 
 def prepare_features_with_rolling_averages(player_id, rolling_window=5):

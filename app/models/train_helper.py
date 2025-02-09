@@ -1,10 +1,10 @@
 import pandas as pd
 
-from app.data.feature_engineering import prepare_features_with_rolling_averages
-from app.data.preprocessing_players import get_all_active_players
+from app.data_processing.feature_engineering import prepare_features_with_rolling_averages
+from app.data_processing.player_preprocessing import get_all_active_players
 from app.utils.labels import rolling_average_labels
 
-from .regression.xgboost_regression_model import train_xgboost_model
+from .xgboost_model import train_xgboost_model
 
 
 def train_model_and_save_model():

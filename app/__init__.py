@@ -16,7 +16,6 @@ db_path = os.path.join(os.path.dirname(__file__),
 
 
 def create_app():
-    # Consider adding blueprints as project grows
     app = Flask(__name__)
     app.config.from_object(Config)
 

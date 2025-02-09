@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import sqlite3 as sq
 
-from app.data.preprocessing_players import get_player_recent_performance
+from app.data_processing.player_preprocessing import get_player_recent_performance
 
 db_path = os.path.join(os.path.dirname(__file__),
                        '../../nba_predict.sqlite')

@@ -1,7 +1,7 @@
 import pandas as pd
 import sqlite3 as sq
 import os
-from .scrape_utils import fill_players_data, fill_teams_data
+from .scraping_utils import fill_players_data, fill_teams_data
 
 db_path = os.path.join(os.path.dirname(__file__),
                        '../..', 'nba_predict.sqlite')

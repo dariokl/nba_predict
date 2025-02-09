@@ -5,11 +5,11 @@ import pandas as pd
 
 from nba_api.stats.static import players
 
-from app.data.feature_engineering import prepare_features_with_rolling_averages
-from app.model.regression.predict_regression_model import backtest_trend_predict
+from app.data_processing.feature_engineering import prepare_features_with_rolling_averages
+from app.models.regression_prediction import backtest_trend_predict
 
 db_path = os.path.join(os.path.dirname(__file__),
-                       '../../../nba_predict.sqlite')
+                       '../../nba_predict.sqlite')
 
 
 def backtest():

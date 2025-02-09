@@ -7,13 +7,13 @@ from fuzzywuzzy import process
 import sqlite3 as sq
 
 
-from app.data.preprocessing_players import find_players_by_full_name, get_all_active_players, get_player_recent_performance
-from app.utils.results_utils import fill_win_column, predictions_stats
-from app.utils.scrape_utils import scrape_team_seasons, scrape_seasons
-from app.model.train_helper import train_model_and_save_model
-from app.model.regression.backtest import backtest
-from app.model.regression.predict_regression_model import predict_for_player_mean, predict_for_player_trend, predict_for_player_ema
-from app.utils.database_utils import fill_data_to_db
+from app.data_processing.player_preprocessing import find_players_by_full_name, get_all_active_players
+from app.utils.result_utils import fill_win_column, predictions_stats
+from app.utils.scraping_utils import scrape_team_seasons, scrape_seasons
+from app.models.train_helper import train_model_and_save_model
+from app.models.backtest import backtest
+from app.models.regression_prediction import predict_for_player_mean, predict_for_player_trend
+from app.utils.db_utils import fill_data_to_db
 
 db_path = os.path.join(os.path.dirname(__file__),
                        './', 'nba_predict.sqlite')
@@ -55,9 +55,6 @@ def predict_from_json(type):
                 player_id, betline=betline)
         elif (type == 'trend'):
             over_under, predicted_points, confidence = predict_for_player_trend(
-                player_id, betline=betline)
-        elif (type == 'ema'):
-            over_under, predicted_points, confidence = predict_for_player_ema(
                 player_id, betline=betline)
 
         predictions.append({
