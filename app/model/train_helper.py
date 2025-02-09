@@ -9,7 +9,7 @@ from .regression.xgboost_regression_model import train_xgboost_model
 
 def train_model_and_save_model():
     """
-    Train the XGBoost model and save the best model.
+    Train the XGBoost model and save it.
     """
     all_players = get_all_active_players()
 

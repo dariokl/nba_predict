@@ -88,7 +88,6 @@ def predictions_stats():
             SELECT win 
             FROM predictions
             WHERE win IS NOT NULL AND type = ?
-            LIMIT 200
         ) subquery;
         """
         result = cursor.execute(query, (prediciton_type,)).fetchone()

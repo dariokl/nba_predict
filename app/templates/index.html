@@ -10,7 +10,8 @@
 
     <div class="w-full max-w-sm">
       <input
-      type="date"
+        type="date"
+        x-on:change='filterByDate($event.target.value)'
         class="w-full bg-white placeholder:text-slate-400 text-sm border border-black-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
         placeholder="Search for player...">
     </div>
@@ -146,17 +147,28 @@
       predictions: [],
       page: 1,
       total_pages: 0,
-      async fetchPredictions(page) {
+      date: '',
+      async fetchPredictions(page = 1, date = null) {
         try {
-          const response = await fetch(`/predictions?page=${page}`);
-          const request = await response.json();
-          this.predictions = request.predictions;
-          this.total_pages = request.total_pages;
+          console.log(date)
+          let url = `/predictions?page=${page}`;
+          if (date) url += `&date=${date}`;
+
+          const response = await fetch(url);
+          const data = await response.json();
+
+          this.predictions = data.predictions;
+          this.total_pages = data.total_pages;
           this.page = page;
+          this.date = this.date
         } catch (error) {
           console.error("Error fetching predictions:", error);
         }
       },
+      async filterByDate(date) {
+        this.date = date
+        this.fetchPredictions(1, date);
+      }
     };
   };
 </script>

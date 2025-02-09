@@ -38,6 +38,8 @@ def backtest():
         _, predicted_points, _ = backtest_trend_predict(
             last_5_games, betline)
 
+        predicted_points = round(predicted_points, 0)
+
         print(f"Prediction: {predicted_points}, Betline: {
               betline}, Scored Points: {scored_points}")
 
