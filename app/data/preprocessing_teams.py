@@ -8,7 +8,6 @@ def get_team_game_logs(game_ids, wls):
                            '../..', 'nba_predict.sqlite')
     connection = sq.connect(db_path)
 
-    # Step 1: Fetch all data for the given game IDs (ignoring WL initially)
     results = []
     for game_id in game_ids:
         query = f"""
@@ -26,17 +25,14 @@ def get_team_game_logs(game_ids, wls):
 
     all_games_df = pd.concat(results, ignore_index=True)
 
-    # Step 2: Calculate total points per game
     total_points = (
         all_games_df.groupby("GAME_ID")["PTS"].sum().reset_index()
         .rename(columns={"PTS": "TOTAL_POINTS"})
     )
 
-    # Step 3: Merge total points back into the original DataFrame
     all_games_df = pd.merge(all_games_df, total_points,
                             on="GAME_ID", how="left")
 
-    # Step 4: Filter by WL
     filtered_results = []
     for game_id, wl in zip(game_ids, wls):
         wl = str(wl)

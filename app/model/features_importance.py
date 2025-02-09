@@ -4,7 +4,7 @@ import os
 
 # Load the model
 model = os.path.join(os.path.dirname(__file__),
-                     '../..', 'model_-0.0102.json')
+                     '../..', 'model_-0.0011.json')
 
 best_model = xgb.XGBRegressor()
 best_model.load_model(model)

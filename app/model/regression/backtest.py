@@ -11,8 +11,6 @@ from app.model.regression.predict_regression_model import backtest_trend_predict
 db_path = os.path.join(os.path.dirname(__file__),
                        '../../../nba_predict.sqlite')
 
-# Needs more testing
-
 
 def backtest():
     predictions = get_predictions()
@@ -20,17 +18,14 @@ def backtest():
     correct_predictions = 0
     total_predictions = 0
 
-    for prediction in predictions[0: 500]:
+    for prediction in predictions:
         name, predicted_points, betline, scored_points, date = prediction
 
-        # Convert prediction date to datetime format
         prediction_date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
 
-        # Get player info
         player = players.find_players_by_full_name(name)
         games_df = prepare_features_with_rolling_averages(player[0]['id'])
 
-        # Ensure GAME_DATE is in datetime format
         games_df['GAME_DATE'] = pd.to_datetime(games_df['GAME_DATE'])
 
         # Filter for games that happened BEFORE or ON the prediction date
@@ -40,7 +35,7 @@ def backtest():
         last_5_games = past_games.sort_values(
             by='GAME_DATE', ascending=False).head(5)
 
-        over_under, predicted_points, tree = backtest_trend_predict(
+        _, predicted_points, _ = backtest_trend_predict(
             last_5_games, betline)
 
         print(f"Prediction: {predicted_points}, Betline: {
@@ -84,9 +79,8 @@ def get_predictions():
     """
 
     cursor.execute(query)
-    results = cursor.fetchall()  # Fetch all results
+    results = cursor.fetchall()
 
-    # Close the connection
     conn.close()
 
     return results

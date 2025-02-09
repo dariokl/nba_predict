@@ -7,7 +7,7 @@ from app.data.feature_engineering import prepare_features_with_rolling_averages
 from app.utils.labels import rolling_average_labels
 
 model = os.path.join(os.path.dirname(__file__),
-                     '../../..', 'model_-0.0103.json')
+                     '../../..', 'model_-0.0011.json')
 
 scaler_file = os.path.join(os.path.dirname(__file__),
                            '../../..', 'scaler.pkl')
