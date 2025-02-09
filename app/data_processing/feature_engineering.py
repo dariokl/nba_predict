@@ -46,7 +46,7 @@ def preprocess_games_data(games_df):
         lambda x: 1 if 'vs.' in x else 0)
     games_df['WL'] = games_df['WL'].apply(lambda x: 1 if x == 'W' else 0)
 
-    return games_df.drop(columns=['GAME_DATE', 'MATCHUP', 'VIDEO_AVAILABLE'])
+    return games_df.drop(columns=['MATCHUP', 'VIDEO_AVAILABLE'])
 
 
 def calculate_rolling_averages(games_df, rolling_window):

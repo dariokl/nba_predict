@@ -38,6 +38,13 @@ def create_app():
                  ).strftime('%Y-%m-%d')
         # Default to page 1 if no page is specified
         page = int(request.args.get('page', 1))
+        date = request.args.get('date')
+
+        print(date)
+
+        if date:
+            date_obj = datetime.strptime(date, '%Y-%m-%d')
+            today = date_obj.strftime('%Y-%m-%d')
 
         items_per_page = 10
         offset = (page - 1) * items_per_page

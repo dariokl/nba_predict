@@ -3,7 +3,7 @@ import os
 import numpy as np
 import joblib
 
-from app.data.feature_engineering import prepare_features_with_rolling_averages
+from app.data_processing.feature_engineering import prepare_features_with_rolling_averages
 from app.utils.labels import rolling_average_labels
 
 model = os.path.join(os.path.dirname(__file__),
@@ -97,11 +97,9 @@ def predict_for_player_ema(player_id, betline):
             (1 - alpha) * ema_predicted_points[i - 1]
     final_ema_prediction = ema_predicted_points[-1]
 
-    # Confidence metric
     deviation = final_ema_prediction - betline
     confidence = 1 - min(1, abs(deviation) / max(10, abs(betline)))
 
-    # Final prediction
     will_score_above = final_ema_prediction > betline
     return will_score_above, final_ema_prediction, confidence * 100
 
