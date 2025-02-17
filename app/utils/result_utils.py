@@ -93,7 +93,7 @@ def predictions_stats():
                         COUNT(*) AS total_predictions, 
                         SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
                     FROM predictions 
-                    WHERE win IS NOT NULL AND type = ? and date = '2025-02-13 00:00:00'
+                    WHERE win IS NOT NULL AND type = ?
                     """,
                     (prediction_type,),
                 )

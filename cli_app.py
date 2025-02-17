@@ -60,7 +60,7 @@ def fill_data():
 
 
 @app.command()
-def backtest():
+def backtest_predictions():
     """Run backtesting."""
     backtest()
 

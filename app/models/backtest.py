@@ -10,7 +10,7 @@ from app.models.regression_prediction import backtest_trend_predict
 db_path = os.path.join(os.path.dirname(__file__), '../../nba_predict.sqlite')
 
 
-def fetch_predictions():
+def get_predictions():
     """Fetch stored predictions from the database."""
     query = """
         SELECT player_name, predicted_points, betline, scored_points, date
@@ -48,7 +48,7 @@ def evaluate_prediction(predicted_points, betline, scored_points):
 
 
 def backtest():
-    predictions = fetch_predictions()
+    predictions = get_predictions()
     correct_predictions = 0
 
     if not predictions:
