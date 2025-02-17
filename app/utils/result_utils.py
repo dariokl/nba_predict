@@ -6,12 +6,12 @@ from app.data_processing.player_preprocessing import get_player_recent_performan
 
 db_path = os.path.join(os.path.dirname(__file__), "../../nba_predict.sqlite")
 
+today = datetime.today()
+yesterday = today - timedelta(days=3)
+yesterday_str = yesterday.strftime("%Y-%m-%d")
+
 
 def fill_win_column():
-    today = datetime.today()
-    yesterday = today - timedelta(days=1)
-    yesterday_str = yesterday.strftime("%Y-%m-%d")
-
     if not os.path.exists(db_path):
         print(f"Database file {db_path} does not exist.")
         return
@@ -20,7 +20,6 @@ def fill_win_column():
         with sq.connect(db_path) as conn:
             cursor = conn.cursor()
 
-            # Fetch predictions where win is NULL
             cursor.execute(
                 """
                 SELECT player_name, betline, over_under, type 
@@ -35,7 +34,7 @@ def fill_win_column():
                 print("No predictions to process.")
                 return
 
-            updates = []  # Store updates for batch execution
+            updates = []
 
             for player_name, betline, over_under, type_ in rows:
                 try:
@@ -94,7 +93,7 @@ def predictions_stats():
                         COUNT(*) AS total_predictions, 
                         SUM(CASE WHEN win = 1 THEN 1 ELSE 0 END) AS total_wins
                     FROM predictions 
-                    WHERE win IS NOT NULL AND type = ?
+                    WHERE win IS NOT NULL AND type = ? and date = '2025-02-13 00:00:00'
                     """,
                     (prediction_type,),
                 )

@@ -5,11 +5,6 @@
     <div class="mb-2 flex w-full justify-start items-center gap-4">
       <div class="max-w-sm">
         <input
-          class="w-full bg-white placeholder:text-slate-400 text-sm border border-black-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-          placeholder="Search for player...">
-      </div>
-      <div class="max-w-sm">
-        <input
           type="date"
           x-on:change='filterByDate($event.target.value)'
           class="w-full bg-white placeholder:text-slate-400 text-sm border border-black-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
@@ -149,7 +144,7 @@
       page: 1,
       total_pages: 0,
       date: '',
-
+      query: '',
       async fetchPredictions(page = 1, date = null) {
         try {
           // Use the stored date if no date is passed
