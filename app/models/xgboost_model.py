@@ -29,11 +29,6 @@ def train_xgboost_model(x_train, y_train):
         x_train, y_train, test_size=0.2, random_state=42, shuffle=False
     )
 
-    # Apply StandardScaler
-    scaler = StandardScaler()
-    x_train_scaled = scaler.fit_transform(x_train)
-    x_test_scaled = scaler.transform(x_test)
-
     # Instantiate the model
     xgb_model = xgb.XGBRegressor(objective='reg:squarederror', verbosity=1)
 
@@ -48,11 +43,10 @@ def train_xgboost_model(x_train, y_train):
     )
 
     # Fit the model using GridSearchCV
-    grid_search.fit(x_train_scaled, y_train, eval_set=[(x_train_scaled, y_train), (x_test_scaled, y_test)],
+    grid_search.fit(x_train, y_train, eval_set=[(x_train, y_train), (x_test, y_test)],
                     verbose=1)
 
     # Save the best model found by GridSearchCV
-    joblib.dump(scaler, 'scaler.pkl')
     save_model(grid_search.best_estimator_, grid_search.best_score_)
 
 

@@ -8,7 +8,7 @@ from app.utils.labels import rolling_average_labels
 
 
 MODEL_PATH = os.path.join(
-    os.path.dirname(__file__), '../../model_-0.0011.json')
+    os.path.dirname(__file__), '../../model_-0.0070.json')
 SCALER_PATH = os.path.join(os.path.dirname(__file__), '../../scaler.pkl')
 
 scaler = joblib.load(SCALER_PATH)
@@ -26,7 +26,7 @@ def preprocess_data(player_id):
     games_df = prepare_features_with_rolling_averages(player_id=player_id)
     if len(games_df) > 5:
         games_df = games_df.tail(5)
-    x_player = scaler.transform(games_df[rolling_average_labels])
+    x_player = games_df[rolling_average_labels]
     return x_player
 
 
@@ -74,8 +74,9 @@ def backtest_trend_predict(games_df, betline):
     if len(games_df) > 5:
         games_df = games_df.tail(5)
 
-    x_player = scaler.transform(games_df[rolling_average_labels])
+    x_player = games_df[rolling_average_labels]
     predicted_points = model.predict(x_player)
+
     trend_predicted_points = weighted_moving_average(predicted_points)
 
     deviation = trend_predicted_points - betline

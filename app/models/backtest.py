@@ -33,7 +33,7 @@ def get_recent_games(player_name, prediction_date):
     games_df['GAME_DATE'] = pd.to_datetime(games_df['GAME_DATE'])
 
     return (
-        games_df[games_df['GAME_DATE'] <= prediction_date]
+        games_df[games_df['GAME_DATE'] < prediction_date]
         .sort_values(by='GAME_DATE', ascending=False)
         .head(5)
     )

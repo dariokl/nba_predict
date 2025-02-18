@@ -15,6 +15,7 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
         return None
 
     opponent_df = get_opponent_stats(games_df)
+
     games_df = preprocess_games_data(games_df)
     games_df = calculate_rolling_averages(games_df, rolling_window)
     games_df = calculate_advanced_metrics(games_df)
@@ -97,7 +98,8 @@ def add_opponent_metrics(games_df, opponent_df):
     """
     Add opponent-related metrics to the game dataset.
     """
-    opponent_metrics = ['W_PCT_RANK', 'STL_RANK', 'PF_RANK']
+    opponent_metrics = ['W_PCT_RANK', 'STL_RANK',
+                        'PF_RANK', 'PTS', 'REB', 'AST', 'STL', 'BLK']
 
     for metric in opponent_metrics:
         games_df[f'OPP_{metric}'] = opponent_df[metric]

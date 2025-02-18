@@ -18,6 +18,13 @@ rolling_average_labels = [
     'DAYS_SINCE_LAST_GAME',
     'TRUE_SHOOTING_PCT',
     'BACK_TO_BACK',
+    'OPP_W_PCT_RANK',
+    'OPP_STL_RANK', 'OPP_PF_RANK',
+    'OPP_PTS',
+    'OPP_REB',
+    'OPP_AST',
+    'OPP_STL',
+    'OPP_BLK',
     'TOTAL_POINTS',
     'HOME'
 ]
