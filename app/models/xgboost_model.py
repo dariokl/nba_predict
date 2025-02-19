@@ -14,23 +14,25 @@ def train_xgboost_model(x_train, y_train):
     """
     # Define hyperparameter grid for tuning
     param_grid = {
-        'learning_rate': [0.05, 0.1],
+        'learning_rate': [0.01, 0.05, 0.1],
         'max_depth': [3, 5],
         'n_estimators': [50, 100],
-        'subsample': [0.8],
-        'colsample_bytree': [0.8],
+        'subsample': [0.7, 0.8],
+        'colsample_bytree': [0.7, 0.8],
         'gamma': [0, 0.1],
-        'min_child_weight': [3],
-        'reg_alpha': [0.1],
-        'reg_lambda': [1],
+        'min_child_weight': [1, 3],
+        'reg_alpha': [0, 0.1],
+        'reg_lambda': [1, 5],
     }
+
     # Split the data into training and test sets
     x_train, x_test, y_train, y_test = train_test_split(
         x_train, y_train, test_size=0.2, random_state=42, shuffle=False
     )
 
     # Instantiate the model
-    xgb_model = xgb.XGBRegressor(objective='reg:squarederror', verbosity=1)
+    xgb_model = xgb.XGBRegressor(
+        objective='reg:squarederror',  eval_metric='rmse', verbosity=1)
 
     tscv = TimeSeriesSplit(n_splits=5)
     grid_search = GridSearchCV(

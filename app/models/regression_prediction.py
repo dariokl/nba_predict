@@ -8,7 +8,7 @@ from app.utils.labels import rolling_average_labels
 
 
 MODEL_PATH = os.path.join(
-    os.path.dirname(__file__), '../../model_-0.0070.json')
+    os.path.dirname(__file__), '../../model_-0.0062.json')
 SCALER_PATH = os.path.join(os.path.dirname(__file__), '../../scaler.pkl')
 
 scaler = joblib.load(SCALER_PATH)
