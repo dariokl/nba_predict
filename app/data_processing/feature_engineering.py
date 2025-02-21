@@ -15,13 +15,19 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
         return None
 
     opponent_df = get_opponent_stats(games_df)
-
+    games_df = add_lag_features(games_df)
     games_df = preprocess_games_data(games_df)
     games_df = calculate_rolling_averages(games_df, rolling_window)
     games_df = calculate_advanced_metrics(games_df)
     games_df = add_opponent_metrics(games_df, opponent_df)
     games_df = clean_data(games_df)
 
+    return games_df
+
+
+def add_lag_features(games_df):
+    for lag in range(1, 6):
+        games_df[f'PTS_LAG_{lag}'] = games_df['PTS'].shift(lag)
     return games_df
 
 
@@ -104,6 +110,28 @@ def add_opponent_metrics(games_df, opponent_df):
     for metric in opponent_metrics:
         games_df[f'OPP_{metric}'] = opponent_df[metric]
 
+    games_df['OPP_STRENGTH'] = (
+        opponent_df['W_PCT_RANK'] +
+        opponent_df['STL_RANK'] +
+        opponent_df['PF_RANK'] +
+        opponent_df['REB'] +
+        opponent_df['AST']
+    ) / 5
+
+    # Opponent performance impact
+    games_df['OPP_PERFORMANCE_IMPACT'] = (
+        games_df['PTS'] - games_df['OPP_PTS']
+    ) / games_df['PTS_ROLL_AVG']
+
+    games_df['OPP_OFFENSIVE_STRENGTH'] = (
+        opponent_df['PTS'] + opponent_df['AST'] + opponent_df['REB']
+    ) / 3
+
+    games_df['OPP_DEFENSIVE_STRENGTH'] = (
+        opponent_df['STL'] + opponent_df['BLK'] +
+        opponent_df['DREB'] - opponent_df['PF_RANK']
+    ) / 3
+
     games_df['TOTAL_POINTS'] = opponent_df['TOTAL_POINTS']
 
     return games_df
@@ -114,6 +142,7 @@ def clean_data(games_df):
     Scale numerical features and clean up the dataset by removing NaNs.
     """
     games_df = games_df.apply(pd.to_numeric, errors='coerce')
+    games_df.replace([np.inf, -np.inf], np.nan, inplace=True)
     games_df = games_df.dropna().reset_index(drop=True)
 
     # Sort by days since the last game

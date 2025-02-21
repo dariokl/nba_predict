@@ -25,14 +25,23 @@ def train_xgboost_model(x_train, y_train):
         'reg_lambda': [1, 5],
     }
 
-    # Split the data into training and test sets
+    # Ensure data is sorted by time before splitting
+    x_train = x_train.sort_index()
+    y_train = y_train.loc[x_train.index]  # Align labels with features
+
+    # Split data into training and test sets
     x_train, x_test, y_train, y_test = train_test_split(
-        x_train, y_train, test_size=0.2, random_state=42, shuffle=False
+        x_train, y_train, test_size=0.2, shuffle=False, random_state=42
     )
 
-    # Instantiate the model
+    # Define time series cross-validation strategy
+    tscv = TimeSeriesSplit(n_splits=5)
+
+    # Instantiate the XGBRegressor model
     xgb_model = xgb.XGBRegressor(
-        objective='reg:squarederror',  eval_metric='rmse', verbosity=1)
+        objective='reg:squarederror',
+        verbosity=1
+    )
 
     tscv = TimeSeriesSplit(n_splits=5)
     grid_search = GridSearchCV(
@@ -44,11 +53,14 @@ def train_xgboost_model(x_train, y_train):
         verbose=1
     )
 
-    # Fit the model using GridSearchCV
-    grid_search.fit(x_train, y_train, eval_set=[(x_train, y_train), (x_test, y_test)],
-                    verbose=1)
+    # Fit the model using GridSearchCV with early stopping
+    grid_search.fit(
+        x_train, y_train,
+        eval_set=[(x_train, y_train), (x_test, y_test)],
+        verbose=1
+    )
 
-    # Save the best model found by GridSearchCV
+    # Save the best model
     save_model(grid_search.best_estimator_, grid_search.best_score_)
 
 

@@ -26,5 +26,14 @@ rolling_average_labels = [
     'OPP_STL',
     'OPP_BLK',
     'TOTAL_POINTS',
-    'HOME'
+    'HOME',
+    'PTS_LAG_1',
+    'PTS_LAG_2',
+    'PTS_LAG_3',
+    'PTS_LAG_4',
+    'PTS_LAG_5',
+    'OPP_STRENGTH',
+    'OPP_PERFORMANCE_IMPACT',
+    'OPP_OFFENSIVE_STRENGTH',
+    'OPP_DEFENSIVE_STRENGTH'
 ]

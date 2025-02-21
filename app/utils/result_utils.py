@@ -7,7 +7,7 @@ from app.data_processing.player_preprocessing import get_player_recent_performan
 db_path = os.path.join(os.path.dirname(__file__), "../../nba_predict.sqlite")
 
 today = datetime.today()
-yesterday = today - timedelta(days=3)
+yesterday = today - timedelta(days=1)
 yesterday_str = yesterday.strftime("%Y-%m-%d")
 
 
