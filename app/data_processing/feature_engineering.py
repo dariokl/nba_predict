@@ -20,6 +20,7 @@ def prepare_features_with_rolling_averages(player_id, rolling_window=5):
     games_df = calculate_rolling_averages(games_df, rolling_window)
     games_df = calculate_advanced_metrics(games_df)
     games_df = add_opponent_metrics(games_df, opponent_df)
+    games_df = add_opponent_defensive_impact(games_df)
     games_df = clean_data(games_df)
 
     return games_df
@@ -134,6 +135,48 @@ def add_opponent_metrics(games_df, opponent_df):
 
     games_df['TOTAL_POINTS'] = opponent_df['TOTAL_POINTS']
 
+    return games_df
+
+
+def categorize_opponent_defense(games_df):
+    """
+    Categorize opponents into 'Strong' and 'Weak' defenses based on defensive strength.
+    """
+    median_defense = games_df['OPP_DEFENSIVE_STRENGTH'].median()
+    games_df['DEFENSE_CATEGORY'] = games_df['OPP_DEFENSIVE_STRENGTH'].apply(
+        lambda x: 'Strong' if x >= median_defense else 'Weak'
+    )
+    return games_df
+
+
+def calculate_defensive_impact(games_df):
+    """
+    Compare player performance against strong vs. weak defenses.
+    """
+    grouped = games_df.groupby('DEFENSE_CATEGORY').agg({
+        'PTS': 'mean',
+        'FG_PCT': 'mean',
+        'AST': 'mean',
+        'REB': 'mean',
+        'PER': 'mean'
+    }).rename(columns=lambda x: f'VS_{x.upper()}')
+
+    games_df = games_df.merge(
+        grouped, left_on='DEFENSE_CATEGORY', right_index=True, how='left')
+
+    # Compute relative performance difference
+    games_df['DEFENSIVE_IMPACT'] = (
+        games_df['PTS'] - games_df['VS_PTS']) / (games_df['VS_PTS'] + 1e-6)
+
+    return games_df
+
+
+def add_opponent_defensive_impact(games_df):
+    """
+    Add opponent defensive impact metrics to the dataset.
+    """
+    games_df = categorize_opponent_defense(games_df)
+    games_df = calculate_defensive_impact(games_df)
     return games_df
 
 

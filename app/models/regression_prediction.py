@@ -26,12 +26,6 @@ def preprocess_data(player_id):
     return x_player
 
 
-def dynamic_alpha(data):
-    """Adjust alpha dynamically based on player performance variability."""
-    std_dev = np.std(data)
-    return min(0.8, max(0.2, 1 - std_dev / np.mean(data)))
-
-
 def exponential_moving_average(data, span=3):
     """Smooth trend with an exponential moving average."""
     return pd.Series(data).ewm(span=span, adjust=False).mean().iloc[-1]
@@ -50,13 +44,6 @@ def compute_confidence(deviation, predicted_points):
     confidence = np.clip(confidence, 0, 100)
 
     return confidence
-
-
-def predict_with_calibration(model, iso_reg, x_player):
-    """Predict and calibrate using Isotonic Regression."""
-    raw_preds = model.predict(x_player)
-    calibrated_preds = iso_reg.predict(raw_preds)
-    return calibrated_preds
 
 
 def predict_for_player_mean(player_id, betline):
