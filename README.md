@@ -47,6 +47,8 @@ After data preparation, you can proceed to train or test the XGBoost model. Inst
 python cli_app.py train-xgb
 ```
 
+After training make sure you load the generated model file to predictions files.
+
 ## Making Predictions
 
 ### Input Data
@@ -94,4 +96,8 @@ To ensure the predictions remain relevant:
 
 This is necessary because NBA games typically occur daily or every other day.
 
-While the project demonstrates the concept effectively, it is not yet robust or production-ready. Regular updates and maintenance are required to keep the data and predictions accurate.
+Regular updates and maintenance are required to keep the data and predictions accurate.
+
+### NOTE
+
+This is a purely hobby project created for learning purposes. The models used here have not achieved high accuracy in predicting player performance, and the results should not be taken as reliable forecasts.

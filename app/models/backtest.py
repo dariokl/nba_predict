@@ -117,6 +117,5 @@ def backtest():
             print(f"Confidence {category}% → No data available.")
 
 
-# Run the backtest
 if __name__ == "__main__":
     backtest()
