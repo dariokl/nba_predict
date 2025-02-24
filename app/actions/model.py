@@ -1,2 +1,2 @@
-from app.models.train_helper import train_model_and_save_model
+from app.models.train_helper import train_model_and_save_model_gradient, train_model_and_save_model_xgboost
 from app.models.backtest import backtest

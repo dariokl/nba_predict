@@ -51,6 +51,20 @@ def backtest():
     predictions = get_predictions()
     correct_predictions = 0
 
+    # Confidence Buckets
+    confidence_buckets = {
+        "0-10": {"correct": 0, "total": 0},
+        "10-20": {"correct": 0, "total": 0},
+        "20-30": {"correct": 0, "total": 0},
+        "30-40": {"correct": 0, "total": 0},
+        "40-50": {"correct": 0, "total": 0},
+        "50-60": {"correct": 0, "total": 0},
+        "60-70": {"correct": 0, "total": 0},
+        "70-80": {"correct": 0, "total": 0},
+        "80-90": {"correct": 0, "total": 0},
+        "90-100": {"correct": 0, "total": 0},
+    }
+
     if not predictions:
         print("No predictions to evaluate.")
         return
@@ -63,15 +77,18 @@ def backtest():
             print(f"Skipping {name}: Not enough game data available.")
             continue
 
-        _, predicted_points, _ = backtest_trend_predict(recent_games, betline)
+        _, predicted_points, confidence = backtest_trend_predict(
+            recent_games, betline)
         predicted_points = round(predicted_points, 0)
 
         correct, prediction_result, actual_result = evaluate_prediction(
-            predicted_points, betline, scored_points)
+            predicted_points, betline, scored_points
+        )
 
         print(
             f"Player: {name} | Prediction: {predicted_points} | Betline: {betline} | "
-            f"Scored: {scored_points} | Prediction: {prediction_result} | Actual: {actual_result}"
+            f"Scored: {scored_points} | Prediction: {prediction_result} | Actual: {actual_result} | "
+            f"Confidence: {confidence:.2f}%"
         )
 
         if correct:
@@ -80,5 +97,26 @@ def backtest():
         else:
             print(f"Backtest Failed: {name} - Prediction was incorrect.")
 
+        confidence_rounded = int(confidence // 10) * 10
+        confidence_category = f"{confidence_rounded}-{confidence_rounded+10}"
+        if confidence_category in confidence_buckets:
+            confidence_buckets[confidence_category]["total"] += 1
+            if correct:
+                confidence_buckets[confidence_category]["correct"] += 1
+
     accuracy = (correct_predictions / len(predictions)) * 100
-    print(f"Model Accuracy: {accuracy:.2f}%")
+
+    print(f'Overrall Accuracy {accuracy}')
+    print("Confidence Range Performance")
+    for category, data in confidence_buckets.items():
+        if data["total"] > 0:
+            accuracy = (data["correct"] / data["total"]) * 100
+            print(
+                f"Confidence {category}% → Win Rate: {accuracy:.2f}% ({data['correct']}/{data['total']})")
+        else:
+            print(f"Confidence {category}% → No data available.")
+
+
+# Run the backtest
+if __name__ == "__main__":
+    backtest()

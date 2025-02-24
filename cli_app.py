@@ -1,5 +1,5 @@
 import typer
-from app.actions.model import train_model_and_save_model
+from app.actions.model import train_model_and_save_model_xgboost, train_model_and_save_model_gradient
 from app.actions.predictions import predict_from_json, fill_win_column, predictions_stats
 from app.actions.scrape import scrape_seasons, scrape_team_seasons
 from app.actions.db_operations import fill_data_to_db
@@ -9,9 +9,15 @@ app = typer.Typer()
 
 
 @app.command()
-def train():
+def train_xgb():
     """Train the model."""
-    train_model_and_save_model()
+    train_model_and_save_model_xgboost()
+
+
+@app.command()
+def train_gradient():
+    """Train the model."""
+    train_model_and_save_model_gradient()
 
 
 @app.command()

@@ -39,7 +39,7 @@ def train_xgboost_model(x_train, y_train):
 
     # Instantiate the XGBRegressor model
     xgb_model = xgb.XGBRegressor(
-        objective='reg:squarederror',
+        objective='reg:pseudohubererror',
         verbosity=1
     )
 
