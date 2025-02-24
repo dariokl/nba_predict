@@ -3,8 +3,6 @@ import joblib
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.model_selection import GridSearchCV, train_test_split, TimeSeriesSplit
 from sklearn.metrics import mean_absolute_error
-import pandas as pd
-import json
 
 
 def train_gradient_boosting_model(x_train, y_train):
@@ -65,7 +63,7 @@ def train_gradient_boosting_model(x_train, y_train):
         grid_search.best_estimator_, grid_search.best_params_, mae)
 
 
-def save_gradient_boosting_model(model, best_params, mae):
+def save_gradient_boosting_model(model, mae):
     """
     Save the best model, hyperparameters, and MAE into the specified directory.
     """
