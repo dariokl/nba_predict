@@ -25,11 +25,11 @@ This combination of regression and decision-making relative to a threshold essen
 Steps
 
 Scrape Data
-Use the provided commands.py file to scrape the player data.
+Use the provided cli_app.py file to scrape the player data.
 Run the following command to execute the scraping process:
 
 ```bash
-python commands.py scrape
+python cli_app.py scrape-init
 ```
 
 This will:
@@ -44,7 +44,7 @@ Run the Model
 After data preparation, you can proceed to train or test the XGBoost model. Instructions for this are provided in the relevant script documentation.
 
 ```bash
-python commands.py train
+python cli_app.py train-xgb
 ```
 
 ## Making Predictions
@@ -71,7 +71,7 @@ Running Predictions
 Once the data.json file is populated with the required data, you can run the following command to make predictions:
 
 ```bash
-python commands.py predict-all
+python cli_app.py predict-all
 ```
 
 In order to display predictions there is a flask application where u can see predictions made for the day
@@ -89,7 +89,7 @@ To ensure the predictions remain relevant:
 
 - **Run the scraping mechanism daily** using the command:
   ```
-  python commands.py fill-to-db
+  python cli_app.py fill-data
   ```
 
 This is necessary because NBA games typically occur daily or every other day.

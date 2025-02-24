@@ -39,18 +39,10 @@ def exponential_moving_average(data, span=3):
 def compute_confidence(deviation, predicted_points):
     """Compute confidence dynamically with improved scaling."""
 
-    # Calculate standard deviation
-    std_dev = np.std(predicted_points)
-
-    # Calculate the max deviation seen in the dataset (avoiding division by zero)
     max_deviation = max(
         np.max(np.abs(predicted_points - np.mean(predicted_points))), 1)
 
-    # Normalize deviation using the max deviation instead of std_dev
     normalized_deviation = abs(deviation) / max_deviation
-
-    # Compute confidence with a stronger scaling factor
-    # This ensures confidence spans 0-100
     confidence = 100 * (1 - normalized_deviation)
 
     # Clip the confidence value to ensure it remains within [0, 100]

@@ -1,7 +1,6 @@
 import xgboost as xgb
 import os
 import numpy as np
-import joblib
 import pandas as pd
 
 from app.data_processing.feature_engineering import prepare_features_with_rolling_averages
@@ -40,19 +39,11 @@ def exponential_moving_average(data, span=3):
 
 def compute_confidence(deviation, predicted_points):
     """Compute confidence dynamically with improved scaling."""
-
-    # Calculate standard deviation
-    std_dev = np.std(predicted_points)
-
-    # Calculate the max deviation seen in the dataset (avoiding division by zero)
     max_deviation = max(
         np.max(np.abs(predicted_points - np.mean(predicted_points))), 1)
 
-    # Normalize deviation using the max deviation instead of std_dev
     normalized_deviation = abs(deviation) / max_deviation
 
-    # Compute confidence with a stronger scaling factor
-    # This ensures confidence spans 0-100
     confidence = 100 * (1 - normalized_deviation)
 
     # Clip the confidence value to ensure it remains within [0, 100]
@@ -61,14 +52,24 @@ def compute_confidence(deviation, predicted_points):
     return confidence
 
 
+def predict_with_calibration(model, iso_reg, x_player):
+    """Predict and calibrate using Isotonic Regression."""
+    raw_preds = model.predict(x_player)
+    calibrated_preds = iso_reg.predict(raw_preds)
+    return calibrated_preds
+
+
 def predict_for_player_mean(player_id, betline):
     """Predict whether a player will score above a certain betline using mean of predictions."""
     model = load_model()
     x_player = preprocess_data(player_id)
     predicted_points = model.predict(x_player)
+
+    # Apply calibration (optional: train isotonic regression beforehand)
     mean_predicted_points = np.mean(predicted_points)
     deviation = mean_predicted_points - betline
     confidence = compute_confidence(deviation, predicted_points)
+
     return mean_predicted_points > betline, mean_predicted_points, confidence
 
 
@@ -77,20 +78,27 @@ def predict_for_player_trend(player_id, betline):
     model = load_model()
     x_player = preprocess_data(player_id)
     predicted_points = model.predict(x_player)
+
     trend_predicted_points = exponential_moving_average(predicted_points)
     deviation = trend_predicted_points - betline
     confidence = compute_confidence(deviation, predicted_points)
+
     return trend_predicted_points > betline, trend_predicted_points, confidence
 
 
 def backtest_trend_predict(games_df, betline):
     """Backtest the trend-based prediction for a given games dataframe."""
     model = load_model()
+
     if len(games_df) > 5:
         games_df = games_df.tail(5)
+
     x_player = games_df[rolling_average_labels]
     predicted_points = model.predict(x_player)
+
+    # Apply calibration (optional)
     trend_predicted_points = exponential_moving_average(predicted_points)
     deviation = trend_predicted_points - betline
     confidence = compute_confidence(deviation, predicted_points)
+
     return trend_predicted_points > betline, trend_predicted_points, confidence
