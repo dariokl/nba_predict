@@ -12,7 +12,7 @@ def train_xgboost_model(x_train, y_train):
     """
     Train the XGBoost model with hyperparameter tuning.
     """
-    # Define hyperparameter grid for tuning
+
     param_grid = {
         'learning_rate': [0.01, 0.05, 0.1],
         'max_depth': [3, 5],
@@ -25,19 +25,15 @@ def train_xgboost_model(x_train, y_train):
         'reg_lambda': [1, 5],
     }
 
-    # Ensure data is sorted by time before splitting
     x_train = x_train.sort_index()
-    y_train = y_train.loc[x_train.index]  # Align labels with features
+    y_train = y_train.loc[x_train.index]
 
-    # Split data into training and test sets
     x_train, x_test, y_train, y_test = train_test_split(
         x_train, y_train, test_size=0.2, shuffle=False, random_state=42
     )
 
-    # Define time series cross-validation strategy
     tscv = TimeSeriesSplit(n_splits=5)
 
-    # Instantiate the XGBRegressor model
     xgb_model = xgb.XGBRegressor(
         objective='reg:pseudohubererror',
         verbosity=1
@@ -53,14 +49,12 @@ def train_xgboost_model(x_train, y_train):
         verbose=1
     )
 
-    # Fit the model using GridSearchCV with early stopping
     grid_search.fit(
         x_train, y_train,
         eval_set=[(x_train, y_train), (x_test, y_test)],
         verbose=1
     )
 
-    # Save the best model
     save_model(grid_search.best_estimator_, grid_search.best_score_)
 
 
@@ -71,7 +65,6 @@ def save_model(model, score):
     model_path = os.path.join(os.path.dirname(
         __file__), '../..', f'model_{score:.4f}.json')
 
-    # Save the model
     model.get_booster().save_model(model_path)
 
     print(f"Model saved as model_{score:.4f}.json")
