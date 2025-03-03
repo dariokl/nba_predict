@@ -134,6 +134,7 @@ def add_opponent_metrics(games_df, opponent_df):
     ) / 3
 
     games_df['TOTAL_POINTS'] = opponent_df['TOTAL_POINTS']
+    games_df['OPP_ID'] = opponent_df['TEAM_ID']
 
     return games_df
 
@@ -143,8 +144,9 @@ def categorize_opponent_defense(games_df):
     Categorize opponents into 'Strong' and 'Weak' defenses based on defensive strength.
     """
     median_defense = games_df['OPP_DEFENSIVE_STRENGTH'].median()
+
     games_df['DEFENSE_CATEGORY'] = games_df['OPP_DEFENSIVE_STRENGTH'].apply(
-        lambda x: 'Strong' if x >= median_defense else 'Weak'
+        lambda x: 0 if x >= median_defense else 1
     )
     return games_df
 
